@@ -18,6 +18,26 @@ export default defineConfig({
 					label: 'Português',
 					lang: 'pt-PT',
 				},
+				'es': {
+					label: 'Español',
+					lang: 'es-ES',
+				},
+				'fr': {
+					label: 'Français',
+					lang: 'fr-FR',
+				},
+				'de': {
+					label: 'Deutsch',
+					lang: 'de-DE',
+				},
+				'it': {
+					label: 'Italiano',
+					lang: 'it-IT',
+				},
+				'tr': {
+					label: 'Türkçe',
+					lang: 'tr-TR',
+				},
 			},
 			social: {
 				github: 'https://github.com/bossgarage/docs',
