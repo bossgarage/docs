@@ -21,6 +21,10 @@ export default defineConfig({
 			},
 			social: {
 				github: 'https://github.com/bossgarage/docs',
+				discord: 'https://discord.gg/bossgarage',
+				youtube: 'https://youtube.com/@bossgarage',
+				facebook: 'https://facebook.com/bossgarage',
+				instagram: 'https://instagram.com/bossgarage',
 			},
 			sidebar: [
 				{
