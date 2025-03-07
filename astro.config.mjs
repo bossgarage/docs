@@ -4,7 +4,7 @@ import starlight from '@astrojs/starlight';
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://viruxe.github.io',
+	site: 'https://docs.bossgarage.eu',
 	integrations: [
 		starlight({
 			title: 'Boss Garage',
