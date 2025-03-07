@@ -7,26 +7,20 @@ description: This is the documentation for the installation and configuration of
 
 ## Before connecting the ECU to the car
 
-Before installing the ECU into the vehicle some pre-installation configuration must be performed.
+Before installing the ECU into the vehicle, some pre-installation configuration must be performed.
 
 ## 1. Update the firmware (optional)
 
 1. Download and install [STM32CubeProgrammer V2.14](https://www.st.com/en/development-tools/stm32cubeprog.html#get-software)
 2. Download the latest FIRMWARE
 3. Click on the **BOOT** button on the board and plug the USB cable into the computer
-
 ![Location of the BOOT button on the Honduino OBD2 DPFI ECU board](/images/honda/honduino-obd2-dpfi/image2.png)
-
 4. In STM32CubeProgrammer, select USB, refresh the devices, select the ECU, and connect.
-
 ![STM32CubeProgrammer USB connection settings](/images/honda/honduino-obd2-dpfi/image3.png)
 ![STM32CubeProgrammer device selection dropdown](/images/honda/honduino-obd2-dpfi/image4.png)
-
 5. Go to the "Erasing & programming" menu, browse, and select the firmware.ini file extracted before.
-
 ![STM32CubeProgrammer erasing and programming menu](/images/honda/honduino-obd2-dpfi/image5.png)
 ![STM32CubeProgrammer firmware file selection dialog](/images/honda/honduino-obd2-dpfi/image6.png)
-
 6. Insert the start address: 0x0800000
 7. Select the boxes: "Run after programming", "Full chip erase" and "Download file"
 8. Click "Start Programming"
@@ -35,13 +29,12 @@ Before installing the ECU into the vehicle some pre-installation configuration m
 ## 2. Connecting to the software
 
 1. Download and install: [TunerStudio](https://www.tunerstudio.com/index.php/downloads)
-2. Plug the USB, it will automatically open a virtual drive with a file ![Firmware.ini file icon](/images/honda/honduino-obd2-dpfi/image7.png), extract it, and save it on your desktop.
-3. Open TunerStudio, create a new project, click "Other / Browse" and select the firmware.ini file extracted before.
-
+2. Plug the USB, it will automatically open a virtual drive with a file
+![Firmware.ini file icon](/images/honda/honduino-obd2-dpfi/image7.png)
+3. Extract it, and save it on your desktop.
+4. Open TunerStudio, create a new project, click "Other / Browse" and select the firmware.ini file extracted before.
 ![TunerStudio project creation wizard](/images/honda/honduino-obd2-dpfi/image8.png)
-
-4. Use RS232 Serial for USB connection or Bluetooth direct
-
+5. Use RS232 Serial for USB connection or Bluetooth direct
 ![TunerStudio connection settings panel](/images/honda/honduino-obd2-dpfi/image9.png)
 
 ## 3.1. Base settings
@@ -59,25 +52,27 @@ Configure the number of cylinders, engine displacement in liters, firing order, 
 3.2.1 The ICM switch needs to be adjusted based on the ignition setup. **(CRITICAL)**
 ![ICM switch position](/images/honda/honduino-obd2-dpfi/image13.png)
 
-3.2.2 Configure the **Spark Mode** and **Output Mode** **(CRITICAL)**
+3.2.2 Configure the **Spark Mode** and **Output Mode**
 
-**WARNING:** If the output mode isn't configured correctly, the coil(s) will overheat and potentially get damaged. If the ignition is ON and the coil starts to heat up, the configuration is likely incorrect.
+**CRITICAL WARNING:** If the output mode isn't configured correctly, the coil(s) will overheat and potentially get damaged. If the ignition is ON and the coil starts to heat up, the configuration is likely incorrect.
 
 ![Spark mode configuration](/images/honda/honduino-obd2-dpfi/image14.png)
 ![Output mode configuration](/images/honda/honduino-obd2-dpfi/image15.png)
 ![Additional configuration options](/images/honda/honduino-obd2-dpfi/image16.png)
 
 **Spark mode:**
+
 - Single coil: Distributor
 - Individual coils: Smart coils in sequential mode
 
 **Ignition output mode:**
+
 - Honda distributor DPFI coil: **Default** (Going Low)
 - Most of the smart coils: Default (Going Low)
 
 3.2.3. **Ignition voltage output:** select the voltage for each pair of ignition output via the jumpers:
 
-**H1 + H2    H3 + H4    H5 + H6    H7 + H8    H9 + H10    H11 + H12**
+`H1 + H2` `H3 + H4` `H5 + H6` `H7 + H8` `H9 + H10` `H11 + H12`
 
 ![Ignition voltage jumper settings](/images/honda/honduino-obd2-dpfi/image17.png)
 
@@ -93,7 +88,7 @@ Configure the number of cylinders, engine displacement in liters, firing order, 
 **C9:**   Coil 3 (High side 3)  
 **C11:** Coil 4 (High side 4)  
 
-**WARNING:** Be sure to read all sections on ignition, so you don't damage any coils.
+**WARNING:** Be sure to read all sections on ignition so you don't damage any coils.
 
 ## 3.3. Injection
 
@@ -180,33 +175,27 @@ A valve controls the radiator fan mechanically, but the ECU can activate the rel
 To sync the ignition timing with the engine, it's necessary to adjust with the help of a [Timing Light gun](https://bossgarage.eu/en/products/timing-light-gun).
 
 1. Disable the injection **(if the car starts, skip this step)**
-
 ![Injection menu](/images/honda/honduino-obd2-dpfi/image41.png)
 ![Injection settings](/images/honda/honduino-obd2-dpfi/image42.png)
 ![Disable injection](/images/honda/honduino-obd2-dpfi/image43.png)
 
 2. Change the timing mode from **dynamic** to **fixed**, so the ECU fires the coil always on the 0-degree angle.
-
 ![Ignition menu](/images/honda/honduino-obd2-dpfi/image14.png)
 ![Ignition timing settings](/images/honda/honduino-obd2-dpfi/image15.png)
 ![Fixed timing configuration](/images/honda/honduino-obd2-dpfi/image44.png)
 
 3. Use a white sharpie to **mark the 0-degree mark** on the crank pulley.
-
 The crank pulley has four marks, with the alone mark of the four being 0 degrees (TDC).
-
 ![Crank pulley timing marks](/images/honda/honduino-obd2-dpfi/image45.png)
 
 4. Attach the timing light clamp to spark plug wire 1, ensuring the arrow points toward the spark plug.
 
 5. Adjust the **Trigger Angle Advance** value until the 0-degree mark on the crank pulley aligns with the pointer on the distribution cover.
-
 ![Trigger configuration menu](/images/honda/honduino-obd2-dpfi/image10.png)
 ![Trigger angle settings](/images/honda/honduino-obd2-dpfi/image30.png)
 ![Trigger angle advance adjustment](/images/honda/honduino-obd2-dpfi/image46.png)
 
 6. Unlock the timing, so the ECU sends the ignition table values.
-
 ![Ignition menu](/images/honda/honduino-obd2-dpfi/image14.png)
 ![Ignition timing settings](/images/honda/honduino-obd2-dpfi/image15.png)
 ![Dynamic timing configuration](/images/honda/honduino-obd2-dpfi/image47.png)
@@ -216,32 +205,27 @@ The crank pulley has four marks, with the alone mark of the four being 0 degrees
 ## 8. Idle control
 
 1. Adjust the idle when the engine is at its normal operating temperature.
-
 ![Idle control menu](/images/honda/honduino-obd2-dpfi/image48.png)
 ![Idle settings](/images/honda/honduino-obd2-dpfi/image49.png)
 ![Idle adjustment](/images/honda/honduino-obd2-dpfi/image50.png)
 
 2. **Idle Target RPM** is used to control the idle in closed-loop mode.
-
 ![Idle control menu](/images/honda/honduino-obd2-dpfi/image48.png)
 ![Idle target settings](/images/honda/honduino-obd2-dpfi/image51.png)
 ![Idle target RPM configuration](/images/honda/honduino-obd2-dpfi/image52.png)
 
 3. **Warmup Idle Multiplier** adjusts the value based on the open-loop idle setting.
-
 ![Idle control menu](/images/honda/honduino-obd2-dpfi/image48.png)
 ![Warmup idle settings](/images/honda/honduino-obd2-dpfi/image53.png)
 ![Warmup idle configuration](/images/honda/honduino-obd2-dpfi/image54.png)
 
 4. **Closed-loop idle** adjusts the idle by a PID algorithm.
-
 ![Idle control menu](/images/honda/honduino-obd2-dpfi/image48.png)
 ![Closed-loop idle settings](/images/honda/honduino-obd2-dpfi/image49.png)
 ![Closed-loop idle configuration](/images/honda/honduino-obd2-dpfi/image55.png)
 ![PID parameters](/images/honda/honduino-obd2-dpfi/image56.png)
 
 5. **Closed-loop idle timing** adjusts the idle by advancing or retarding the ignition timing.
-
 ![Idle timing menu](/images/honda/honduino-obd2-dpfi/image57.png)
 ![Idle timing settings](/images/honda/honduino-obd2-dpfi/image58.png)
 ![Idle timing configuration](/images/honda/honduino-obd2-dpfi/image59.png)
@@ -273,12 +257,10 @@ This engine doesn't have VTEC solenoid, but you can change to a head with VTEC.
 
 ## 12. Wideband
 
-To tune the VE table, a wideband sensor is necessary for measuring the air-fuel ratio.
+To tune the VE table, a wideband sensor for measuring the air-fuel ratio is necessary.
 
 1. You can either connect an LSU 4.9 sensor directly to the onboard controller or use a 0-5V signal from an external controller via an auxiliary analog input.
-
 ![OBD1 C connector pinout](/images/honda/honduino-obd2-dpfi/image18.png)
-
 | OBD1 C connector | LSU 4.9 sensor |
 | ---------------- | -------------- |
 | **C2** | 5 (IA) |
@@ -287,20 +269,18 @@ To tune the VE table, a wideband sensor is necessary for measuring the air-fuel 
 | **C8** | 2 (VGND) |
 | **C10** | 3 (HEATER-) |
 | **C12** | 4 (HEATER+) |
-
 ![Wideband sensor connection diagram](/images/honda/honduino-obd2-dpfi/image67.png)
 
 2. Configure the wideband linear output values
-
 ![Wideband menu](/images/honda/honduino-obd2-dpfi/image33.png)
 ![Wideband settings](/images/honda/honduino-obd2-dpfi/image68.png)
 ![Wideband configuration](/images/honda/honduino-obd2-dpfi/image69.png)
 
 ## 13. Launch control
 
-The launch control is used to launch… **I mean, spit flames, a lot of 🔥🔥🔥!**
+The launch control is used to launch... **I mean, spit flames, a lot of 🔥🔥🔥!**
 
-1. Select the activation mode: it can be Speed-based, Launch, Clutch, or Brake button.
+Select the activation mode: It can be Speed-based, Launch, Clutch, or Brake button.
 
 If you choose to use a button, some cars have clutch switches, but most will need to be wired to a switch that sends a ground signal to pin OBD1 B7 (Aux Digital Input D2) when the clutch is pressed.
 
@@ -308,16 +288,16 @@ If you choose to use a button, some cars have clutch switches, but most will nee
 ![Launch control settings](/images/honda/honduino-obd2-dpfi/image71.png)
 ![Launch control configuration](/images/honda/honduino-obd2-dpfi/image72.png)
 
-- Launch RPM: A secondary Rev limit engaged by the driver to help launch the vehicle faster.
-- Ignition Retard Adder: Range from Launch RPM for Timing Retard to activate.
-- Hard Cut RPM Adder: Range from Launch RPM to activate Hard Cut.
-- Smooth Retard Mode: Interpolates the Ignition Retard from 0 to 100% within the RPM Range.
+- **Launch RPM:** A secondary Rev limit engaged by the driver to help launch the vehicle faster.
+- **Ignition Retard Adder:** Range from Launch RPM for Timing Retard to activate. 
+- **Hard Cut RPM Adder:** Range from Launch RPM to activate Hard Cut.
+- **Smooth Retard Mode:** Interpolates the Ignition Retard from 0 to 100% within the RPM Range.
 
 ## 14. Anti-lag
 
-The ANTI-LAG is used to help decrease the lag of the… **I mean, spit flames, a lot of 🔥🔥🔥!**
+The ANTI-LAG is used to help decrease the lag of the... **I mean, spit flames, a lot of 🔥🔥🔥!** 
 
-1. Wire a switch that sends a ground signal to an unused auxiliary digital input.
+Wire a switch that sends a ground signal to an unused auxiliary digital input.
 
 ![Anti-lag menu](/images/honda/honduino-obd2-dpfi/image73.png)
 ![Anti-lag settings](/images/honda/honduino-obd2-dpfi/image74.png)
@@ -328,8 +308,8 @@ The ANTI-LAG is used to help decrease the lag of the… **I mean, spit flames, a
 A [boost controller](https://bossgarage.eu/en/products/mac-electronic-boost-pressure-valve) is a device used to increase the boost pressure produced by the turbocharger.
 
 1. Connect the negative wire of the boost controller valve to an auxiliary low-side output.
-2. Activate a boost limit to protect the engine from overboost.
 
+2. Activate a boost limit to protect the engine from overboost.
 ![Boost limit menu](/images/honda/honduino-obd2-dpfi/image10.png)
 ![Boost limit settings](/images/honda/honduino-obd2-dpfi/image76.png)
 ![Boost limit configuration](/images/honda/honduino-obd2-dpfi/image77.png)
@@ -339,23 +319,18 @@ A [boost controller](https://bossgarage.eu/en/products/mac-electronic-boost-pres
 - 160kpa absolute = 100 kpa atmosphere + 60 kpa of boost
 
 3. Select **Open-loop** mode and the auxiliary output.
-
 Open-loop: Regulates the boost valve's duty cycle according to the percentage values in the control table.
-
 ![Boost control menu](/images/honda/honduino-obd2-dpfi/image70.png)
 ![Boost control settings](/images/honda/honduino-obd2-dpfi/image78.png)
 ![Boost control configuration](/images/honda/honduino-obd2-dpfi/image79.png)
 
 4. Configure the Boost control open-loop table.
-
 ![Boost table menu](/images/honda/honduino-obd2-dpfi/image70.png)
 ![Boost table settings](/images/honda/honduino-obd2-dpfi/image80.png)
 ![Boost table configuration](/images/honda/honduino-obd2-dpfi/image81.png)
 
 5. It's possible to enable the **Open + Closed-loop** and control the boost more precisely.
-
 Open + Closed-loop: Regulates the boost valve's duty cycle using the open-loop table, combined with a PID algorithm and a target table.
-
 ![Closed-loop boost menu](/images/honda/honduino-obd2-dpfi/image70.png)
 ![Closed-loop boost settings](/images/honda/honduino-obd2-dpfi/image82.png)
 ![Closed-loop boost configuration](/images/honda/honduino-obd2-dpfi/image83.png)
@@ -389,17 +364,14 @@ The engine light can be used as a programmable output. I prefer to use it as a s
 The stock distributor coil sends the RPM signal to the cluster, but the ECU can also control it. When converting to coil-on-plug, the signal from the distributor stops working, so the ECU must provide it.
 
 1. Select the output Low-Side 11 to send the RPM signal.
-
 ![Tachometer menu](/images/honda/honduino-obd2-dpfi/image10.png)
 ![Tachometer settings](/images/honda/honduino-obd2-dpfi/image39.png)
 ![Tachometer configuration](/images/honda/honduino-obd2-dpfi/image90.png)
 
 2. If you're still using distributor coil and want to control the RPM by the ECU, remove the wire:
-
 ![Tachometer wire location](/images/honda/honduino-obd2-dpfi/image91.png)
 
 3. Select the TACH switch to **YES**.
-
 ![TACH switch setting](/images/honda/honduino-obd2-dpfi/image92.png)
 
 ## 19. Auxiliary inputs/outputs
@@ -455,7 +427,7 @@ The stock distributor coil sends the RPM signal to the cluster, but the ECU can 
 | ---------------- | ------------------------ | -------- |
 | B7 |  | +5V |
 | B9 |  | +5V |
-| B11 |  | +12 |
+| B11 |  | +12V |
 | B13 |  | Ground |
 | B15 |  | Ground |
 | B16 |  | Ground |
@@ -468,13 +440,15 @@ The stock distributor coil sends the RPM signal to the cluster, but the ECU can 
 
 ![Drive-by-wire connections](/images/honda/honduino-obd2-dpfi/image97.png)
 
-- **OUT- & OUT+:** Output for ETB motor.
-- **5V:** Power to the potentiometers.
-- **GND:** Ground to the potentiometers,
+- **OUT- & OUT+:** Output for ETB motor
+- **5V:** Power to the potentiometers
+- **GND:** Ground to the potentiometers
 
 **NOTE1:** If no sensor is wired, it can be repurposed for any other function.
 
 ## 20. PINOUT: OBD1 DPFI
+
+### Connector A
 
 ![OBD1 DPFI connector diagram](/images/honda/honduino-obd2-dpfi/image98.png)
 
@@ -503,6 +477,8 @@ The stock distributor coil sends the RPM signal to the cluster, but the ECU can 
 | **A23 / A25** | +12V ignition |  |
 | **A24 / A26** | Ground |  |
 
+### Connector B
+
 ![OBD1 B connector diagram](/images/honda/honduino-obd2-dpfi/image99.png)
 
 | OBD1 | FUNCTION | TUNERSTUDIO |
@@ -524,6 +500,8 @@ The stock distributor coil sends the RPM signal to the cluster, but the ECU can 
 | **B15** | Ground for sensors |  |
 | **B16** | Ground for sensors |  |
 
+### Connector C
+
 ![OBD1 C connector diagram](/images/honda/honduino-obd2-dpfi/image100.png)
 
 | OBD1 | FUNCTION | TUNERSTUDIO |
@@ -540,6 +518,8 @@ The stock distributor coil sends the RPM signal to the cluster, but the ECU can 
 | **C10** | LSU 4.9 - PIN 3 (HEATER-) |  |
 | **C11** | Coil 4 | High side 4 (E12) |
 | **C12** | LSU 4.9 - PIN 4 (HEATER+) |  |
+
+### Connector D
 
 ![OBD1 D connector diagram](/images/honda/honduino-obd2-dpfi/image101.png)
 
