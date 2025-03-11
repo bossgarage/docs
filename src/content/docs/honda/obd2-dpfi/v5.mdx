@@ -28,37 +28,37 @@ Whether you're upgrading from a stock ECU, migrating from an older version, or i
 
 ## Before connecting the ECU to the car
 
-Before installing the ECU into the vehicle, some pre-installation configuration must be performed.
+Before mounting the ECU to the vehicle, some pre-installation configurations should be performed.
 
-## 1. Update the firmware (optional)
+## Updating the firmware (optional)
 
-1. Download and install [STM32CubeProgrammer V2.14](https://www.st.com/en/development-tools/stm32cubeprog.html#get-software)
-2. Download the latest FIRMWARE
-3. Click on the **BOOT** button on the board and plug the USB cable into the computer
+Download and install [STM32CubeProgrammer V2.14](https://www.st.com/en/development-tools/stm32cubeprog.html#get-software)
+Download the latest FIRMWARE
+Click on the **BOOT** button on the board and plug the USB cable into the computer
 ![Location of the BOOT button on the Honduino OBD2 DPFI ECU board](/images/honda/obd2-dpfi/v5/image2.png)
-4. In STM32CubeProgrammer, select USB, refresh the devices, select the ECU, and connect.
+In STM32CubeProgrammer, select USB, refresh the devices, select the ECU, and connect.
 ![STM32CubeProgrammer USB connection settings](/images/honda/obd2-dpfi/v5/image3.png)
 ![STM32CubeProgrammer device selection dropdown](/images/honda/obd2-dpfi/v5/image4.png)
-5. Go to the "Erasing & programming" menu, browse, and select the firmware.ini file extracted before.
+Go to the "Erasing & programming" menu, browse, and select the firmware.ini file extracted before.
 ![STM32CubeProgrammer erasing and programming menu](/images/honda/obd2-dpfi/v5/image5.png)
 ![STM32CubeProgrammer firmware file selection dialog](/images/honda/obd2-dpfi/v5/image6.png)
-6. Insert the start address: 0x0800000
-7. Select the boxes: "Run after programming", "Full chip erase" and "Download file"
-8. Click "Start Programming"
-9. You successfully updated the firmware! Now, close all the STM32CubeProgrammer windows and restart the ECU by clicking the RESET button or unplug and plug the USB cable.
+Insert the start address: 0x0800000
+Select the boxes: "Run after programming", "Full chip erase" and "Download file"
+Click "Start Programming"
+You successfully updated the firmware! Now, close all the STM32CubeProgrammer windows and restart the ECU by clicking the RESET button or unplug and plug the USB cable.
 
-## 2. Connecting to the software
+## Connecting to the software
 
-1. Download and install: [TunerStudio](https://www.tunerstudio.com/index.php/downloads)
-2. Plug the USB, it will automatically open a virtual drive with a file
+Download and install: [TunerStudio](https://www.tunerstudio.com/index.php/downloads)
+Plug the USB, it will automatically open a virtual drive with a file
 ![Firmware.ini file icon](/images/honda/obd2-dpfi/v5/image7.png)
-3. Extract it, and save it on your desktop.
-4. Open TunerStudio, create a new project, click "Other / Browse" and select the firmware.ini file extracted before.
+Extract it, and save it on your desktop.
+Open TunerStudio, create a new project, click "Other / Browse" and select the firmware.ini file extracted before.
 ![TunerStudio project creation wizard](/images/honda/obd2-dpfi/v5/image8.png)
-5. Use RS232 Serial for USB connection or Bluetooth direct
+Use RS232 Serial for USB connection or Bluetooth direct
 ![TunerStudio connection settings panel](/images/honda/obd2-dpfi/v5/image9.png)
 
-## 3.1. Base settings
+## Base settings
 
 Configure the number of cylinders, engine displacement in liters, firing order, and fuel strategy.
 
@@ -66,14 +66,14 @@ Configure the number of cylinders, engine displacement in liters, firing order, 
 ![Engine parameters configuration panel](/images/honda/obd2-dpfi/v5/image11.png)
 ![Fuel strategy configuration options](/images/honda/obd2-dpfi/v5/image12.png)
 
-## 3.2. Ignition (Distributor / COP)
+## Ignition (Distributor / COP)
 
 **WARNING:** Use only **smart coils** or dumb coils with external igniters.
 
-3.2.1 The ICM switch needs to be adjusted based on the ignition setup. **(CRITICAL)**
+The ICM switch needs to be adjusted based on the ignition setup. **(CRITICAL)**
 ![ICM switch position](/images/honda/obd2-dpfi/v5/image13.png)
 
-3.2.2 Configure the **Spark Mode** and **Output Mode**
+Configure the **Spark Mode** and **Output Mode**
 
 **CRITICAL WARNING:** If the output mode isn't configured correctly, the coil(s) will overheat and potentially get damaged. If the ignition is ON and the coil starts to heat up, the configuration is likely incorrect.
 
@@ -91,7 +91,7 @@ Configure the number of cylinders, engine displacement in liters, firing order, 
 - Honda distributor DPFI coil: **Default** (Going Low)
 - Most of the smart coils: Default (Going Low)
 
-3.2.3. **Ignition voltage output:** select the voltage for each pair of ignition output via the jumpers:
+**Ignition voltage output:** select the voltage for each pair of ignition output via the jumpers:
 
 `H1 + H2` `H3 + H4` `H5 + H6` `H7 + H8` `H9 + H10` `H11 + H12`
 
@@ -100,7 +100,7 @@ Configure the number of cylinders, engine displacement in liters, firing order, 
 - Honda distributor: 12V
 - Most of the smart coils: 5V
 
-3.2.4. **If using individual coils:** Connect each coil signal wire to the OBD1 C connector.
+**If using individual coils:** Connect each coil signal wire to the OBD1 C connector.
 
 ![OBD1 C connector pinout](/images/honda/obd2-dpfi/v5/image18.png)
 
@@ -111,17 +111,17 @@ Configure the number of cylinders, engine displacement in liters, firing order, 
 
 **WARNING:** Be sure to read all sections on ignition so you don't damage any coils.
 
-## 3.3. Injection
+## Injection
 
 **WARNING:** Use only high-impedance injectors (> 8 ohms) or low impedance with a resistor box.
 
-3.3.1 Configure the outputs that correspond to each cylinder.
+Configure the outputs that correspond to each cylinder.
 
 ![Injection output configuration](/images/honda/obd2-dpfi/v5/image19.png)
 ![Cylinder configuration](/images/honda/obd2-dpfi/v5/image20.png)
 ![Additional injection settings](/images/honda/obd2-dpfi/v5/image21.png)
 
-3.3.2 Injector base settings
+**Injector base settings**
 
 - Injection mode
 - Injector flow
@@ -132,23 +132,23 @@ Configure the number of cylinders, engine displacement in liters, firing order, 
 ![Injector parameters](/images/honda/obd2-dpfi/v5/image23.png)
 ![Dead time configuration](/images/honda/obd2-dpfi/v5/image24.png)
 
-## 3.4. Temperature sensors
+## Temperature sensors
 
-3.4.1 Coolant temperature sensor
+**Coolant temperature sensor**
 
 ![Temperature sensor menu](/images/honda/obd2-dpfi/v5/image25.png)
 ![Coolant temperature configuration](/images/honda/obd2-dpfi/v5/image26.png)
 ![Coolant sensor parameters](/images/honda/obd2-dpfi/v5/image27.png)
 
-3.4.2 Intake temperature sensor
+**Intake temperature sensor**
 
 ![Temperature sensor menu](/images/honda/obd2-dpfi/v5/image25.png)
 ![Intake temperature configuration](/images/honda/obd2-dpfi/v5/image28.png)
 ![Intake sensor parameters](/images/honda/obd2-dpfi/v5/image29.png)
 
-## 3.5. Trigger wheel
+## Trigger wheel
 
-3.5.1 Configure the trigger wheel according to your distributor disc:
+Configure the trigger wheel according to your distributor disc:
 
 ![Trigger configuration menu](/images/honda/obd2-dpfi/v5/image10.png)
 ![Trigger wheel settings](/images/honda/obd2-dpfi/v5/image30.png)
@@ -163,7 +163,7 @@ Configure the number of cylinders, engine displacement in liters, firing order, 
 
 ## Connect the ECU to the car
 
-## 4. Throttle Position Sensor
+## Throttle Position Sensor
 
 ![TPS configuration menu](/images/honda/obd2-dpfi/v5/image33.png)
 ![TPS settings](/images/honda/obd2-dpfi/v5/image34.png)
@@ -171,7 +171,7 @@ Configure the number of cylinders, engine displacement in liters, firing order, 
 
 Adjust the **Primary minimum (ADC)** and **Primary max (ADC)** until the TPS reads 0% without pressing the throttle and 100% at full throttle.
 
-## 5. MAP sensor
+## MAP sensor
 
 Any MAP sensor can be used, but the most used is the stock one on input A4.
 
@@ -183,7 +183,7 @@ You can also solder an onboard MAP sensor to Analog Input 5 or connect to free a
 
 ![Onboard MAP sensor location](/images/honda/obd2-dpfi/v5/image38.png)
 
-## 6. Radiator fan
+## Radiator fan
 
 A valve controls the radiator fan mechanically, but the ECU can activate the relay independently by an unused Low side output.
 
@@ -191,7 +191,7 @@ A valve controls the radiator fan mechanically, but the ECU can activate the rel
 ![Fan output configuration](/images/honda/obd2-dpfi/v5/image39.png)
 ![Fan settings](/images/honda/obd2-dpfi/v5/image40.png)
 
-## 7. Ignition base timing (same as the rotation of the distributor)
+## Ignition base timing (same as the rotation of the distributor)
 
 To sync the ignition timing with the engine, it's necessary to adjust with the help of a [Timing Light gun](https://bossgarage.eu/en/products/timing-light-gun).
 
@@ -221,32 +221,32 @@ The crank pulley has four marks, with the alone mark of the four being 0 degrees
 ![Ignition timing settings](/images/honda/obd2-dpfi/v5/image15.png)
 ![Dynamic timing configuration](/images/honda/obd2-dpfi/v5/image47.png)
 
-7. **The timing is synced,** now start your car 🥳🥳🥳
+**The timing is synced,** now start your car 🥳🥳🥳
 
-## 8. Idle control
+## Idle control
 
-1. Adjust the idle when the engine is at its normal operating temperature.
+Adjust the idle when the engine is at its normal operating temperature.
 ![Idle control menu](/images/honda/obd2-dpfi/v5/image48.png)
 ![Idle settings](/images/honda/obd2-dpfi/v5/image49.png)
 ![Idle adjustment](/images/honda/obd2-dpfi/v5/image50.png)
 
-2. **Idle Target RPM** is used to control the idle in closed-loop mode.
+**Idle Target RPM** is used to control the idle in closed-loop mode.
 ![Idle control menu](/images/honda/obd2-dpfi/v5/image48.png)
 ![Idle target settings](/images/honda/obd2-dpfi/v5/image51.png)
 ![Idle target RPM configuration](/images/honda/obd2-dpfi/v5/image52.png)
 
-3. **Warmup Idle Multiplier** adjusts the value based on the open-loop idle setting.
+**Warmup Idle Multiplier** adjusts the value based on the open-loop idle setting.
 ![Idle control menu](/images/honda/obd2-dpfi/v5/image48.png)
 ![Warmup idle settings](/images/honda/obd2-dpfi/v5/image53.png)
 ![Warmup idle configuration](/images/honda/obd2-dpfi/v5/image54.png)
 
-4. **Closed-loop idle** adjusts the idle by a PID algorithm.
+**Closed-loop idle** adjusts the idle by a PID algorithm.
 ![Idle control menu](/images/honda/obd2-dpfi/v5/image48.png)
 ![Closed-loop idle settings](/images/honda/obd2-dpfi/v5/image49.png)
 ![Closed-loop idle configuration](/images/honda/obd2-dpfi/v5/image55.png)
 ![PID parameters](/images/honda/obd2-dpfi/v5/image56.png)
 
-5. **Closed-loop idle timing** adjusts the idle by advancing or retarding the ignition timing.
+**Closed-loop idle timing** adjusts the idle by advancing or retarding the ignition timing.
 ![Idle timing menu](/images/honda/obd2-dpfi/v5/image57.png)
 ![Idle timing settings](/images/honda/obd2-dpfi/v5/image58.png)
 ![Idle timing configuration](/images/honda/obd2-dpfi/v5/image59.png)
@@ -493,7 +493,7 @@ The stock distributor coil sends the RPM signal to the cluster, but the ECU can 
 
 **NOTE1:** If no sensor is wired, it can be repurposed for any other function.
 
-## 20. PINOUT: OBD1 DPFI
+## PINOUT: OBD1 DPFI
 
 ### Connector A
 

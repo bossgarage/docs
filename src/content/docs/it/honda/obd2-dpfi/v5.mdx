@@ -31,30 +31,30 @@ Prima di installare la ECU nel veicolo, è necessario eseguire alcune configuraz
 
 ## Aggiornamento del firmware (opzionale)
 
-1. Scarica e installa [STM32CubeProgrammer V2.14](https://www.st.com/en/development-tools/stm32cubeprog.html#get-software)
-2. Scarica il FIRMWARE più recente
-3. Premi il pulsante **BOOT** sulla scheda e collega il cavo USB al computer
+Scarica e installa [STM32CubeProgrammer V2.14](https://www.st.com/en/development-tools/stm32cubeprog.html#get-software)
+Scarica il FIRMWARE più recente
+Premi il pulsante **BOOT** sulla scheda e collega il cavo USB al computer
 ![Posizione del pulsante BOOT sulla scheda ECU Honduino OBD2 DPFI](/images/honda/obd2-dpfi/v5/image2.png)
-4. In STM32CubeProgrammer seleziona USB, aggiorna i dispositivi, seleziona la ECU e connettiti.
+In STM32CubeProgrammer seleziona USB, aggiorna i dispositivi, seleziona la ECU e connettiti.
 ![Impostazione connessione USB di STM32CubeProgrammer](/images/honda/obd2-dpfi/v5/image3.png)
 ![Menu a discesa selezione dispositivo di STM32CubeProgrammer](/images/honda/obd2-dpfi/v5/image4.png)
-5. Vai al menu "Erase & Program", naviga e seleziona il file firmware.ini precedentemente estratto.
+Vai al menu "Erase & Program", naviga e seleziona il file firmware.ini precedentemente estratto.
 ![Menu Erase & Program di STM32CubeProgrammer](/images/honda/obd2-dpfi/v5/image5.png)
 ![Finestra di dialogo selezione file firmware di STM32CubeProgrammer](/images/honda/obd2-dpfi/v5/image6.png)
-6. Inserisci l'indirizzo di inizio: 0x0800000
-7. Seleziona le caselle: "Esegui dopo la programmazione", "Cancella completamente il chip" e "Scarica file"
-8. Fai clic su "Start Programming"
-9. Hai aggiornato con successo il firmware! Ora chiudi tutte le finestre di STM32CubeProgrammer e riavvia la ECU facendo clic sul pulsante RESET o scollegando e ricollegando il cavo USB.
+Inserisci l'indirizzo di inizio: 0x0800000
+Seleziona le caselle: "Esegui dopo la programmazione", "Cancella completamente il chip" e "Scarica file"
+Fai clic su "Start Programming"
+Hai aggiornato con successo il firmware! Ora chiudi tutte le finestre di STM32CubeProgrammer e riavvia la ECU facendo clic sul pulsante RESET o scollegando e ricollegando il cavo USB.
 
 ## Collegamento al software
 
-1. Scarica e installa: [TunerStudio](https://www.tunerstudio.com/index.php/downloads)
-2. Collega la USB, si aprirà automaticamente un'unità virtuale con un file
+Scarica e installa: [TunerStudio](https://www.tunerstudio.com/index.php/downloads)
+Collega la USB, si aprirà automaticamente un'unità virtuale con un file
 ![Icona del file Firmware.ini](/images/honda/obd2-dpfi/v5/image7.png)
-3. Estrailo e salvalo sul desktop.
-4. Apri TunerStudio, crea un nuovo progetto, fai clic su "Altro / Sfoglia" e seleziona il file firmware.ini precedentemente estratto.
+Estrailo e salvalo sul desktop.
+Apri TunerStudio, crea un nuovo progetto, fai clic su "Altro / Sfoglia" e seleziona il file firmware.ini precedentemente estratto.
 ![Procedura guidata creazione progetto TunerStudio](/images/honda/obd2-dpfi/v5/image8.png)
-5. Utilizza RS232 Serial per connessione USB o Bluetooth diretto
+Utilizza RS232 Serial per connessione USB o Bluetooth diretto
 ![Pannello configurazione connessione TunerStudio](/images/honda/obd2-dpfi/v5/image9.png)
 
 ## Impostazioni di base
@@ -224,28 +224,28 @@ La puleggia dell'albero motore ha quattro segni, con il segno isolato dei quattr
 
 ## Controllo del minimo
 
-1. Regola il minimo quando il motore è alla sua normale temperatura di funzionamento.
+Regola il minimo quando il motore è alla sua normale temperatura di funzionamento.
 ![Menu controllo minimo](/images/honda/obd2-dpfi/v5/image48.png)
 ![Configurazione minimo](/images/honda/obd2-dpfi/v5/image49.png)
 ![Regolazione minimo](/images/honda/obd2-dpfi/v5/image50.png)
 
-2. **RPM target al minimo** viene utilizzato per controllare il minimo in modalità closed-loop.
+**RPM target al minimo** viene utilizzato per controllare il minimo in modalità closed-loop.
 ![Menu controllo minimo](/images/honda/obd2-dpfi/v5/image48.png)
 ![Configurazione RPM target](/images/honda/obd2-dpfi/v5/image51.png)
 ![Configurazione RPM target al minimo](/images/honda/obd2-dpfi/v5/image52.png)
 
-3. **Moltiplicatore minimo a caldo** regola il valore in base alla configurazione del minimo in open-loop.
+**Moltiplicatore minimo a caldo** regola il valore in base alla configurazione del minimo in open-loop.
 ![Menu controllo minimo](/images/honda/obd2-dpfi/v5/image48.png)
 ![Configurazione minimo a caldo](/images/honda/obd2-dpfi/v5/image53.png)
 ![Configurazione minimo a caldo](/images/honda/obd2-dpfi/v5/image54.png)
 
-4. **Minimo in closed-loop** regola il minimo utilizzando un algoritmo PID.
+**Minimo in closed-loop** regola il minimo utilizzando un algoritmo PID.
 ![Menu controllo minimo](/images/honda/obd2-dpfi/v5/image48.png)
 ![Configurazione minimo in closed-loop](/images/honda/obd2-dpfi/v5/image49.png)
 ![Configurazione minimo in closed-loop](/images/honda/obd2-dpfi/v5/image55.png)
 ![Parametri PID](/images/honda/obd2-dpfi/v5/image56.png)
 
-5. **Fasatura minimo in closed-loop** regola il minimo anticipando o ritardando la fasatura di accensione.
+**Fasatura minimo in closed-loop** regola il minimo anticipando o ritardando la fasatura di accensione.
 ![Menu fasatura minimo](/images/honda/obd2-dpfi/v5/image57.png)
 ![Configurazione fasatura minimo](/images/honda/obd2-dpfi/v5/image58.png)
 ![Configurazione fasatura minimo](/images/honda/obd2-dpfi/v5/image59.png)
@@ -420,7 +420,7 @@ La bobina del distributore originale invia il segnale RPM alla plancia, ma la EC
 3. Imposta l'interruttore TACH su **SI**.
 ![Configurazione interruttore TACH](/images/honda/obd2-dpfi/v5/image92.png)
 
-## 19. Ingressi/uscite ausiliari
+## Ingressi/uscite ausiliari
 
 **LOW SIDE:** Controlla iniettori e valvole con un segnale di massa e può gestire fino a 10A.
 
@@ -492,7 +492,7 @@ La bobina del distributore originale invia il segnale RPM alla plancia, ma la EC
 
 **NOTA 1:** Se nessun sensore è collegato, può essere riutilizzato per qualsiasi altra funzione. 
 
-## 20. PINOUT: OBD1 DPFI
+## PINOUT: OBD1 DPFI
 
 ### Connettore A
 
