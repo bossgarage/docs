@@ -30,7 +30,7 @@ Whether you're upgrading from a stock ECU, migrating from an older version, or i
 
 Before mounting the ECU to the vehicle, some pre-installation configurations should be performed.
 
-## Updating the firmware (optional)
+### Updating the firmware (optional)
 
 Download and install [STM32CubeProgrammer V2.14](https://www.st.com/en/development-tools/stm32cubeprog.html#get-software)
 Download the latest FIRMWARE
@@ -47,7 +47,7 @@ Select the boxes: "Run after programming", "Full chip erase" and "Download file"
 Click "Start Programming"
 You successfully updated the firmware! Now, close all the STM32CubeProgrammer windows and restart the ECU by clicking the RESET button or unplug and plug the USB cable.
 
-## Connecting to the software
+### Connecting to the software
 
 Download and install: [TunerStudio](https://www.tunerstudio.com/index.php/downloads)
 Plug the USB, it will automatically open a virtual drive with a file
@@ -58,7 +58,7 @@ Open TunerStudio, create a new project, click "Other / Browse" and select the fi
 Use RS232 Serial for USB connection or Bluetooth direct
 ![TunerStudio connection settings panel](/images/honda/obd2-dpfi/v5/image9.png)
 
-## Base settings
+### Base settings
 
 Configure the number of cylinders, engine displacement in liters, firing order, and fuel strategy.
 
@@ -66,7 +66,7 @@ Configure the number of cylinders, engine displacement in liters, firing order, 
 ![Engine parameters configuration panel](/images/honda/obd2-dpfi/v5/image11.png)
 ![Fuel strategy configuration options](/images/honda/obd2-dpfi/v5/image12.png)
 
-## Ignition (Distributor / COP)
+### Ignition (Distributor / COP)
 
 **WARNING:** Use only **smart coils** or dumb coils with external igniters.
 
@@ -111,7 +111,7 @@ Configure the **Spark Mode** and **Output Mode**
 
 **WARNING:** Be sure to read all sections on ignition so you don't damage any coils.
 
-## Injection
+### Injection
 
 **WARNING:** Use only high-impedance injectors (> 8 ohms) or low impedance with a resistor box.
 
@@ -132,7 +132,7 @@ Configure the outputs that correspond to each cylinder.
 ![Injector parameters](/images/honda/obd2-dpfi/v5/image23.png)
 ![Dead time configuration](/images/honda/obd2-dpfi/v5/image24.png)
 
-## Temperature sensors
+### Temperature sensors
 
 **Coolant temperature sensor**
 
@@ -146,7 +146,7 @@ Configure the outputs that correspond to each cylinder.
 ![Intake temperature configuration](/images/honda/obd2-dpfi/v5/image28.png)
 ![Intake sensor parameters](/images/honda/obd2-dpfi/v5/image29.png)
 
-## Trigger wheel
+### Trigger wheel
 
 Configure the trigger wheel according to your distributor disc:
 
@@ -163,7 +163,7 @@ Configure the trigger wheel according to your distributor disc:
 
 ## Connect the ECU to the car
 
-## Throttle Position Sensor
+### Throttle Position Sensor
 
 ![TPS configuration menu](/images/honda/obd2-dpfi/v5/image33.png)
 ![TPS settings](/images/honda/obd2-dpfi/v5/image34.png)
@@ -171,7 +171,7 @@ Configure the trigger wheel according to your distributor disc:
 
 Adjust the **Primary minimum (ADC)** and **Primary max (ADC)** until the TPS reads 0% without pressing the throttle and 100% at full throttle.
 
-## MAP sensor
+### MAP sensor
 
 Any MAP sensor can be used, but the most used is the stock one on input A4.
 
@@ -183,7 +183,7 @@ You can also solder an onboard MAP sensor to Analog Input 5 or connect to free a
 
 ![Onboard MAP sensor location](/images/honda/obd2-dpfi/v5/image38.png)
 
-## Radiator fan
+### Radiator fan
 
 A valve controls the radiator fan mechanically, but the ECU can activate the relay independently by an unused Low side output.
 
@@ -191,7 +191,7 @@ A valve controls the radiator fan mechanically, but the ECU can activate the rel
 ![Fan output configuration](/images/honda/obd2-dpfi/v5/image39.png)
 ![Fan settings](/images/honda/obd2-dpfi/v5/image40.png)
 
-## Ignition base timing (same as the rotation of the distributor)
+### Ignition base timing (same as the rotation of the distributor)
 
 To sync the ignition timing with the engine, it's necessary to adjust with the help of a [Timing Light gun](https://bossgarage.eu/en/products/timing-light-gun).
 
@@ -223,7 +223,7 @@ The crank pulley has four marks, with the alone mark of the four being 0 degrees
 
 **The timing is synced,** now start your car 🥳🥳🥳
 
-## Idle control
+### Idle control
 
 Adjust the idle when the engine is at its normal operating temperature.
 ![Idle control menu](/images/honda/obd2-dpfi/v5/image48.png)
@@ -251,7 +251,7 @@ Adjust the idle when the engine is at its normal operating temperature.
 ![Idle timing settings](/images/honda/obd2-dpfi/v5/image58.png)
 ![Idle timing configuration](/images/honda/obd2-dpfi/v5/image59.png)
 
-## VTEC solenoid
+### VTEC solenoid
 
 This engine doesn't have VTEC solenoid, but you can change to a head with VTEC.
 
@@ -262,13 +262,13 @@ This engine doesn't have VTEC solenoid, but you can change to a head with VTEC.
 **0 = OFF**  
 **100 = ON**
 
-## Vehicle Speed Sensor
+### Vehicle Speed Sensor
 
 ![VSS menu](/images/honda/obd2-dpfi/v5/image33.png)
 ![VSS settings](/images/honda/obd2-dpfi/v5/image63.png)
 ![VSS configuration](/images/honda/obd2-dpfi/v5/image64.png)
 
-## Air Conditioner
+### Air Conditioner
 
 ![A/C menu](/images/honda/obd2-dpfi/v5/image10.png)
 ![A/C settings](/images/honda/obd2-dpfi/v5/image65.png)
@@ -276,7 +276,7 @@ This engine doesn't have VTEC solenoid, but you can change to a head with VTEC.
 
 ## Extra features
 
-## Wideband
+### Wideband
 
 To tune the VE table, a wideband sensor for measuring the air-fuel ratio is necessary.
 
@@ -323,7 +323,7 @@ To tune the VE table, a wideband sensor for measuring the air-fuel ratio is nece
 ![Wideband settings](/images/honda/obd2-dpfi/v5/image68.png)
 ![Wideband configuration](/images/honda/obd2-dpfi/v5/image69.png)
 
-## Launch control
+### Launch control
 
 Launch control is used for... **I mean, for spitting flames, lots of 🔥🔥🔥!**
 
@@ -340,7 +340,7 @@ If you choose to use a button, some cars have clutch switches, but most will nee
 - **Hard Cut RPM Adder:** Range from Launch RPM to activate Hard Cut.
 - **Smooth Retard Mode:** Interpolates the Ignition Retard from 0 to 100% within the RPM Range.
 
-## Anti-lag
+### Anti-lag
 
 ANTI-LAG is used to help reduce turbo... **I mean, for spitting flames, lots of 🔥🔥🔥!**
 
@@ -350,7 +350,7 @@ Wire a switch that sends a ground signal to an unused auxiliary digital input.
 ![Anti-lag settings](/images/honda/obd2-dpfi/v5/image74.png)
 ![Anti-lag configuration](/images/honda/obd2-dpfi/v5/image75.png)
 
-## Boost control
+### Boost control
 
 A [boost controller](https://bossgarage.eu/en/products/mac-electronic-boost-pressure-valve) is a device used to increase the boost pressure produced by the turbocharger.
 
@@ -384,7 +384,7 @@ Open + Closed-loop: Regulates the boost valve's duty cycle using the open-loop t
 ![Closed-loop PID settings](/images/honda/obd2-dpfi/v5/image84.png)
 ![Closed-loop target table](/images/honda/obd2-dpfi/v5/image85.png)
 
-## FLEX FUEL (E85)
+### FLEX FUEL (E85)
 
 A flex fuel sensor determines the ethanol content of the fluent fuel before it is injected.
 
@@ -395,7 +395,7 @@ A flex fuel sensor determines the ethanol content of the fluent fuel before it i
 ![Flex fuel settings](/images/honda/obd2-dpfi/v5/image86.png)
 ![Flex fuel configuration](/images/honda/obd2-dpfi/v5/image87.png)
 
-## CEL: Shift / Warning light
+### CEL: Shift / Warning light
 
 The engine light can be used as a programmable output. I prefer to use it as a shift indicator and for coolant temperature warnings.
 
@@ -406,7 +406,7 @@ The engine light can be used as a programmable output. I prefer to use it as a s
 **0 = OFF**  
 **100 = ON**
 
-## Tachometer
+### Tachometer
 
 The stock distributor coil sends the RPM signal to the cluster, but the ECU can also control it. When converting to coil-on-plug, the signal from the distributor stops working, so the ECU must provide it.
 
@@ -421,7 +421,7 @@ The stock distributor coil sends the RPM signal to the cluster, but the ECU can 
 3. Select the TACH switch to **YES**.
 ![TACH switch setting](/images/honda/obd2-dpfi/v5/image92.png)
 
-## Auxiliary inputs/outputs
+### Auxiliary inputs/outputs
 
 **LOW SIDE:** Controls injectors and valves using a ground signal, handling up to 10A.
 
