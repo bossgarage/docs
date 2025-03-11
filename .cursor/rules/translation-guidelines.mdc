@@ -1,0 +1,78 @@
+---
+description: Handling translation files
+globs: *.md, *.mdx
+alwaysApply: false
+---
+# Translation File Structure and Organization
+
+## Rule Description
+
+This rule specifies how translation files should be organized and structured within the documentation to ensure consistency, maintainability, and ease of updates across multiple languages.
+
+## Directory Structure
+
+All translations must follow the exact same directory structure as the default language (English):
+
+- Default documentation: `/src/content/docs/[topic]/[subtopic]/[file].[md|mdx]`
+- Translations: `/src/content/docs/[language-code]/[topic]/[subtopic]/[file].[md|mdx]`
+
+Where `[language-code]` is one of:
+- `tr` - Turkish
+- `it` - Italian
+- `de` - German
+- `fr` - French
+- `es` - Spanish
+- `pt` - Portuguese
+
+## File Requirements
+
+- Translation files must use **identical filenames** to their English counterparts
+- File format (.md or .mdx) must match the original
+- Only translate content, not structure or image paths
+- Preserve all markdown formatting, headings, lists, and code blocks
+
+## Frontmatter
+
+```md
+---
+title: "[Translated Title]"
+description: "[Translated Description]"
+---
+```
+
+## Content Translation
+
+- Translate text content only
+- Keep all image references identical to the original:
+  ```md
+  ![Translated Alt Text](mdc:images/same/path/as/original.png)
+  ```
+- Maintain the exact same section hierarchy with translated headings
+- Preserve all links, replacing only the visible text
+
+## Examples
+
+### ✅ Correct Structure
+```
+/src/content/docs/honda/obd2-dpfi/v4.md
+/src/content/docs/fr/honda/obd2-dpfi/v4.md
+/src/content/docs/tr/honda/obd2-dpfi/v4.md
+```
+
+### ❌ Incorrect Structure
+```
+/src/content/docs/honda/obd2-dpfi/v4.md
+/src/content/docs/fr/honda-fr/obd2-dpfi-fr/v4-fr.md
+/src/content/docs/tr/v4.md
+```
+
+## Update Process
+
+When the default documentation is updated:
+1. Apply identical structural changes to all translation files
+2. Update translated content to match new English version
+3. Ensure no formatting or structural differences are introduced
+
+## Validation
+
+You can validate the translation structure by comparing file paths and content structure with the original document.
