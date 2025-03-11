@@ -1,0 +1,588 @@
+---
+title: "Honduino OBD2 DPFI - V5"
+description: "Esta é a documentação para a instalação e configuração do Honduino OBD2 DPFI - V5."
+---
+
+![BossGarage Logo](/images/logo.png)
+
+O **Honduino OBD2 DPFI** é uma unidade de controle do motor (ECU) aftermarket avançada, projetada especificamente para veículos Honda com sistemas *DPFI (Dual Point Fuel Injection)*. Este guia abrangente cobre a configuração completa, calibração e configuração avançada da **versão V5** desta ECU.
+
+Esta documentação abrange:
+
+- **Pré-instalação** atualizações de firmware e configuração de software
+- **Configuração básica da ECU:**
+  - *Configurações da roda fônica*
+  - *Parâmetros de ignição*
+  - *Configurações de injeção*
+- **Integração ao veículo** e calibração de sensores
+- **Funcionalidades avançadas** incluindo:
+  - *Sensor de oxigênio wideband*
+  - *Controle de largada e anti-lag*
+  - *Controle de boost*
+  - *Compatibilidade com combustível FLEX*
+  - *Configuração de saídas personalizadas (CEL, luzes de troca de marcha)*
+- **Diagramas de pinagem completos** e referências de conexão
+
+Seja você esteja atualizando de uma ECU original, migrando de uma versão anterior ou instalando uma nova unidade aftermarket, este guia fornece *instruções detalhadas* para alcançar **desempenho ideal** com seu Honduino OBD2 DPFI V5.
+
+## Antes de conectar a ECU ao carro
+
+Antes de instalar a ECU no veículo, algumas configurações de pré-instalação devem ser realizadas.
+
+## Atualização do firmware (opcional)
+
+1. Baixe e instale [STM32CubeProgrammer V2.14](https://www.st.com/en/development-tools/stm32cubeprog.html#get-software)
+2. Baixe o FIRMWARE mais recente
+3. Pressione o botão **BOOT** na placa e conecte o cabo USB ao computador
+![Localização do botão BOOT na placa ECU Honduino OBD2 DPFI](/images/honda/obd2-dpfi/v5/image2.png)
+4. No STM32CubeProgrammer, selecione USB, atualize os dispositivos, selecione a ECU e conecte.
+![Configuração de conexão USB do STM32CubeProgrammer](/images/honda/obd2-dpfi/v5/image3.png)
+![Menu suspenso de seleção de dispositivo do STM32CubeProgrammer](/images/honda/obd2-dpfi/v5/image4.png)
+5. Vá para o menu "Apagar e Programar", navegue e selecione o arquivo firmware.ini previamente extraído.
+![Menu Apagar e Programar do STM32CubeProgrammer](/images/honda/obd2-dpfi/v5/image5.png)
+![Diálogo de seleção de arquivo firmware do STM32CubeProgrammer](/images/honda/obd2-dpfi/v5/image6.png)
+6. Insira o endereço inicial: 0x0800000
+7. Selecione as caixas: "Executar após programação", "Apagar chip completamente" e "Baixar arquivo"
+8. Clique em "Iniciar Programação"
+9. Você atualizou o firmware com sucesso! Agora feche todas as janelas do STM32CubeProgrammer e reinicie a ECU clicando no botão RESET ou desconectando e reconectando o cabo USB.
+
+## Conexão com o software
+
+1. Baixe e instale: [TunerStudio](https://www.tunerstudio.com/index.php/downloads)
+2. Conecte o USB, uma unidade virtual com um arquivo será aberta automaticamente
+![Ícone do arquivo Firmware.ini](/images/honda/obd2-dpfi/v5/image7.png)
+3. Extraia-o e salve em seu desktop.
+4. Abra o TunerStudio, crie um novo projeto, clique em "Outro / Procurar" e selecione o arquivo firmware.ini previamente extraído.
+![Assistente de criação de projeto do TunerStudio](/images/honda/obd2-dpfi/v5/image8.png)
+5. Use RS232 Serial para conexão USB ou conexão direta por Bluetooth
+![Painel de configuração de conexão do TunerStudio](/images/honda/obd2-dpfi/v5/image9.png)
+
+## Configurações básicas
+
+Configure o número de cilindros, a cilindrada em litros, a ordem de ignição e a estratégia de combustível.
+
+![Menu de configuração do motor](/images/honda/obd2-dpfi/v5/image10.png)
+![Painel de configuração de parâmetros do motor](/images/honda/obd2-dpfi/v5/image11.png)
+![Opções de configuração da estratégia de combustível](/images/honda/obd2-dpfi/v5/image12.png)
+
+## Ignição (Distribuidor / COP)
+
+**AVISO:** Use apenas **bobinas inteligentes** ou bobinas simples com ignitores externos.
+
+O interruptor ICM precisa ser ajustado com base na configuração de ignição. **(CRÍTICO)**
+![Posição do interruptor ICM](/images/honda/obd2-dpfi/v5/image13.png)
+
+3.2.2 Configure o **Modo de Centelha** e o **Modo de Saída**
+
+**AVISO CRÍTICO:** Se o modo de saída não estiver configurado corretamente, a(s) bobina(s) superaquecerá(ão) e potencialmente será(ão) danificada(s). Se a ignição estiver LIGADA e a bobina começar a esquentar, a configuração provavelmente está incorreta.
+
+![Configuração do modo de centelha](/images/honda/obd2-dpfi/v5/image14.png)
+![Configuração do modo de saída](/images/honda/obd2-dpfi/v5/image15.png)
+![Opções de configuração adicionais](/images/honda/obd2-dpfi/v5/image16.png)
+
+**Modo de centelha:**
+
+- Bobina única: Distribuidor
+- Bobinas individuais: Bobinas inteligentes em modo sequencial
+
+**Modo de saída de ignição:**
+
+- Bobina do distribuidor Honda DPFI: **Padrão** (Going Low)
+- Maioria das bobinas inteligentes: Padrão (Going Low)
+
+3.2.3. **Saída de tensão de ignição:** selecione a tensão para cada par de saídas de ignição através dos jumpers:
+
+`H1 + H2` `H3 + H4` `H5 + H6` `H7 + H8` `H9 + H10` `H11 + H12`
+
+![Configuração de jumpers de tensão de ignição](/images/honda/obd2-dpfi/v5/image17.png)
+
+- Distribuidor Honda: 12V
+- Maioria das bobinas inteligentes: 5V
+
+3.2.4. **Ao usar bobinas individuais:** Conecte cada cabo de sinal de bobina ao conector OBD1 C.
+
+![Pinagem do conector OBD1 C](/images/honda/obd2-dpfi/v5/image18.png)
+
+**C5:**   Bobina 1 (High side 1)  
+**C7:**   Bobina 2 (High side 2)  
+**C9:**   Bobina 3 (High side 3)  
+**C11:** Bobina 4 (High side 4)  
+
+**AVISO:** Certifique-se de ler todas as seções sobre ignição para evitar danos às bobinas. 
+
+## Injeção
+
+**AVISO:** Use apenas injetores de alta impedância (> 8 ohms) ou de baixa impedância com uma caixa de resistores.
+
+Configure as saídas que correspondem a cada cilindro.
+
+![Configuração de saída de injeção](/images/honda/obd2-dpfi/v5/image19.png)
+![Configuração de cilindros](/images/honda/obd2-dpfi/v5/image20.png)
+![Configurações adicionais de injeção](/images/honda/obd2-dpfi/v5/image21.png)
+
+3.3.2 Configurações básicas do injetor
+
+- Modo de injeção
+- Fluxo do injetor
+- Modo de compensação
+- Tempo morto
+
+![Configurações básicas do injetor](/images/honda/obd2-dpfi/v5/image22.png)
+![Parâmetros do injetor](/images/honda/obd2-dpfi/v5/image23.png)
+![Configuração de tempo morto](/images/honda/obd2-dpfi/v5/image24.png)
+
+## Sensores de temperatura
+
+Sensor de temperatura do líquido de arrefecimento
+
+![Menu do sensor de temperatura](/images/honda/obd2-dpfi/v5/image25.png)
+![Configuração de temperatura do líquido de arrefecimento](/images/honda/obd2-dpfi/v5/image26.png)
+![Parâmetros do sensor do líquido de arrefecimento](/images/honda/obd2-dpfi/v5/image27.png)
+
+3.4.2 Sensor de temperatura de admissão
+
+![Menu do sensor de temperatura](/images/honda/obd2-dpfi/v5/image25.png)
+![Configuração de temperatura de admissão](/images/honda/obd2-dpfi/v5/image28.png)
+![Parâmetros do sensor de admissão](/images/honda/obd2-dpfi/v5/image29.png)
+
+## Roda fônica
+
+Configure a roda fônica de acordo com seu disco do distribuidor:
+
+![Menu de configuração do trigger](/images/honda/obd2-dpfi/v5/image10.png)
+![Configurações da roda fônica](/images/honda/obd2-dpfi/v5/image30.png)
+
+**Disco de trigger original:**
+
+![Diagrama do disco de trigger original](/images/honda/obd2-dpfi/v5/image31.png)
+
+**Disco de trigger 24-1:**
+
+![Diagrama do disco de trigger 24-1](/images/honda/obd2-dpfi/v5/image32.png)
+
+## Conecte a ECU ao carro
+
+## Sensor de posição do acelerador
+
+![Menu de configuração do TPS](/images/honda/obd2-dpfi/v5/image33.png)
+![Configurações do TPS](/images/honda/obd2-dpfi/v5/image34.png)
+![Calibração do TPS](/images/honda/obd2-dpfi/v5/image35.png)
+
+Ajuste o **Mínimo primário (ADC)** e o **Máximo primário (ADC)** até que o TPS mostre 0% sem pressionar o acelerador e 100% com o acelerador totalmente pressionado.
+
+## Sensor MAP
+
+Qualquer sensor MAP pode ser usado, mas o mais utilizado é o original na entrada A4.
+
+![Menu do sensor MAP](/images/honda/obd2-dpfi/v5/image33.png)
+![Configuração do sensor MAP](/images/honda/obd2-dpfi/v5/image36.png)
+![Configurações do sensor MAP](/images/honda/obd2-dpfi/v5/image37.png)
+
+Você também pode soldar um sensor MAP na placa na Entrada Analógica 5 ou conectar a uma entrada analógica livre.
+
+![Localização do sensor MAP na placa](/images/honda/obd2-dpfi/v5/image38.png)
+
+## Ventoinha do radiador
+
+Uma válvula controla a ventoinha do radiador mecanicamente, mas a ECU pode ativar o relé independentemente por uma saída Low side não utilizada.
+
+![Menu de controle da ventoinha](/images/honda/obd2-dpfi/v5/image10.png)
+![Configuração de saída da ventoinha](/images/honda/obd2-dpfi/v5/image39.png)
+![Configurações da ventoinha](/images/honda/obd2-dpfi/v5/image40.png)
+
+## Ponto de ignição base (igual à rotação do distribuidor)
+
+Para sincronizar o ponto de ignição com o motor, é necessário ajustá-lo com a ajuda de uma [Pistola de ponto estroboscópica](https://bossgarage.eu/en/products/timing-light-gun).
+
+1. Desabilite a injeção **(se o carro der partida, pule esta etapa)**
+![Menu de injeção](/images/honda/obd2-dpfi/v5/image41.png)
+![Configurações de injeção](/images/honda/obd2-dpfi/v5/image42.png)
+![Desabilitar injeção](/images/honda/obd2-dpfi/v5/image43.png)
+
+2. Altere o modo de ignição de **dinâmico** para **fixo**, para que a ECU dispare a bobina sempre no ângulo de 0 grau.
+![Menu de ignição](/images/honda/obd2-dpfi/v5/image14.png)
+![Configurações de ponto de ignição](/images/honda/obd2-dpfi/v5/image15.png)
+![Configuração de ponto fixo](/images/honda/obd2-dpfi/v5/image44.png)
+
+3. Use um marcador branco para **marcar o ponto de 0 grau** na polia do virabrequim.
+A polia do virabrequim tem quatro marcas, sendo a marca isolada das quatro o ponto de 0 graus (PMS).
+![Marcas de ponto na polia do virabrequim](/images/honda/obd2-dpfi/v5/image45.png)
+
+4. Prenda a garra da pistola estroboscópica no cabo da vela de ignição 1, garantindo que a seta aponte para a vela de ignição.
+
+5. Ajuste o valor de **Avanço do Ângulo do Trigger** até que a marca de 0 grau na polia do virabrequim se alinhe com o ponteiro na tampa da distribuição.
+![Menu de configuração do trigger](/images/honda/obd2-dpfi/v5/image10.png)
+![Configurações do ângulo do trigger](/images/honda/obd2-dpfi/v5/image30.png)
+![Ajuste do avanço do ângulo do trigger](/images/honda/obd2-dpfi/v5/image46.png)
+
+6. Desbloqueie o ponto, para que a ECU envie os valores da tabela de ignição.
+![Menu de ignição](/images/honda/obd2-dpfi/v5/image14.png)
+![Configurações de ponto de ignição](/images/honda/obd2-dpfi/v5/image15.png)
+![Configuração de ponto dinâmico](/images/honda/obd2-dpfi/v5/image47.png)
+
+7. **O ponto está sincronizado,** agora dê partida no seu carro 🥳🥳🥳
+
+## Controle de marcha lenta
+
+1. Ajuste a marcha lenta quando o motor estiver em sua temperatura normal de operação.
+![Menu de controle de marcha lenta](/images/honda/obd2-dpfi/v5/image48.png)
+![Configurações de marcha lenta](/images/honda/obd2-dpfi/v5/image49.png)
+![Ajuste de marcha lenta](/images/honda/obd2-dpfi/v5/image50.png)
+
+2. **RPM Alvo de Marcha Lenta** é usado para controlar a marcha lenta no modo de malha fechada.
+![Menu de controle de marcha lenta](/images/honda/obd2-dpfi/v5/image48.png)
+![Configurações de alvo de marcha lenta](/images/honda/obd2-dpfi/v5/image51.png)
+![Configuração de RPM alvo de marcha lenta](/images/honda/obd2-dpfi/v5/image52.png)
+
+3. **Multiplicador de Marcha Lenta em Aquecimento** ajusta o valor com base na configuração de marcha lenta em malha aberta.
+![Menu de controle de marcha lenta](/images/honda/obd2-dpfi/v5/image48.png)
+![Configurações de marcha lenta em aquecimento](/images/honda/obd2-dpfi/v5/image53.png)
+![Configuração de marcha lenta em aquecimento](/images/honda/obd2-dpfi/v5/image54.png)
+
+4. **Marcha lenta em malha fechada** ajusta a marcha lenta através de um algoritmo PID.
+![Menu de controle de marcha lenta](/images/honda/obd2-dpfi/v5/image48.png)
+![Configurações de marcha lenta em malha fechada](/images/honda/obd2-dpfi/v5/image49.png)
+![Configuração de marcha lenta em malha fechada](/images/honda/obd2-dpfi/v5/image55.png)
+![Parâmetros PID](/images/honda/obd2-dpfi/v5/image56.png)
+
+5. **Ponto de ignição de marcha lenta em malha fechada** ajusta a marcha lenta avançando ou retardando o ponto de ignição.
+![Menu de ponto de marcha lenta](/images/honda/obd2-dpfi/v5/image57.png)
+![Configurações de ponto de marcha lenta](/images/honda/obd2-dpfi/v5/image58.png)
+![Configuração de ponto de marcha lenta](/images/honda/obd2-dpfi/v5/image59.png)
+
+## Solenoide VTEC
+
+Este motor não possui solenoide VTEC, mas você pode trocar para um cabeçote com VTEC.
+
+![Menu VTEC](/images/honda/obd2-dpfi/v5/image60.png)
+![Configurações VTEC](/images/honda/obd2-dpfi/v5/image61.png)
+![Configuração VTEC](/images/honda/obd2-dpfi/v5/image62.png)
+
+**0 = DESLIGADO**  
+**100 = LIGADO**
+
+## Sensor de Velocidade do Veículo
+
+![Menu VSS](/images/honda/obd2-dpfi/v5/image33.png)
+![Configurações VSS](/images/honda/obd2-dpfi/v5/image63.png)
+![Configuração VSS](/images/honda/obd2-dpfi/v5/image64.png)
+
+## Ar Condicionado
+
+![Menu A/C](/images/honda/obd2-dpfi/v5/image10.png)
+![Configurações A/C](/images/honda/obd2-dpfi/v5/image65.png)
+![Configuração A/C](/images/honda/obd2-dpfi/v5/image66.png)
+
+## Funcionalidades extras
+
+## Sensor wideband
+
+Para ajustar a tabela VE, é necessário um sensor wideband para medir a relação ar-combustível.
+
+1. Você pode conectar um sensor LSU 4.9 diretamente ao controlador na placa ou usar um sinal de 0-5V de um controlador externo através de uma entrada analógica auxiliar.
+![Pinagem do conector OBD1 C](/images/honda/obd2-dpfi/v5/image18.png)
+<table>
+	<thead>
+		<tr>
+		<th>Conector OBD1 C</th>
+		<th>Sensor LSU 4.9</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+		<td>C2</td>
+		<td style="background-color: #8eda8e; color: black;">5 (IA)</td>
+		</tr>
+		<tr>
+		<td>C4</td>
+		<td style="background-color: #000000; color: #ffffff;">6 (NERMEST)</td>
+		</tr>
+		<tr>
+		<td>C6</td>
+		<td style="background-color: #f78a8a; color: black;">1 (IP)</td>
+		</tr>
+		<tr>
+		<td>C8</td>
+		<td style="background-color: #ffd966; color: black;">2 (VGND)</td>
+		</tr>
+		<tr>
+		<td>C10</td>
+		<td style="background-color: #ffffff; color: black;">3 (HEATER-)</td>
+		</tr>
+		<tr>
+		<td>C12</td>
+		<td style="background-color: #d0d0d0; color: black;">4 (HEATER+)</td>
+		</tr>
+	</tbody>
+</table>
+![Diagrama de conexão do sensor wideband](/images/honda/obd2-dpfi/v5/image67.png)
+
+2. Configure os valores de saída linear do wideband
+![Menu do wideband](/images/honda/obd2-dpfi/v5/image33.png)
+![Configurações do wideband](/images/honda/obd2-dpfi/v5/image68.png)
+![Configuração do wideband](/images/honda/obd2-dpfi/v5/image69.png)
+
+## 13. Controle de largada
+
+O controle de largada é usado para largar... **Quero dizer, soltar chamas, muitas 🔥🔥🔥!**
+
+Selecione o modo de ativação: Pode ser baseado em Velocidade, Largada, Embreagem ou botão de Freio.
+
+Se você optar por usar um botão, alguns carros têm interruptores de embreagem, mas a maioria precisará ser conectada a um interruptor que envie um sinal de terra para o pino OBD1 B7 (Entrada Digital Auxiliar D2) quando a embreagem for pressionada.
+
+![Menu de controle de largada](/images/honda/obd2-dpfi/v5/image70.png)
+![Configurações de controle de largada](/images/honda/obd2-dpfi/v5/image71.png)
+![Configuração de controle de largada](/images/honda/obd2-dpfi/v5/image72.png)
+
+- **RPM de Largada:** Um limitador de rotação secundário acionado pelo motorista para ajudar a largar o veículo mais rapidamente.
+- **Adicionador de Retardo de Ignição:** Intervalo a partir do RPM de Largada para ativar o Retardo de Ponto.
+- **Adicionador de RPM de Corte Duro:** Intervalo a partir do RPM de Largada para ativar o Corte Duro.
+- **Modo de Retardo Suave:** Interpola o Retardo de Ignição de 0 a 100% dentro do Intervalo de RPM.
+
+## 14. Anti-lag
+
+O ANTI-LAG é usado para ajudar a diminuir o atraso do... **Quero dizer, soltar chamas, muitas 🔥🔥🔥!** 
+
+Conecte um interruptor que envie um sinal de terra para uma entrada digital auxiliar não utilizada.
+
+![Menu anti-lag](/images/honda/obd2-dpfi/v5/image73.png)
+![Configurações anti-lag](/images/honda/obd2-dpfi/v5/image74.png)
+![Configuração anti-lag](/images/honda/obd2-dpfi/v5/image75.png)
+
+## 15. Controle de boost
+
+Um [controlador de boost](https://bossgarage.eu/en/products/mac-electronic-boost-pressure-valve) é um dispositivo usado para aumentar a pressão de boost produzida pelo turbocompressor.
+
+1. Conecte o fio negativo da válvula do controlador de boost a uma saída auxiliar low-side.
+
+2. Ative um limite de boost para proteger o motor contra excesso de pressão.
+![Menu de limite de boost](/images/honda/obd2-dpfi/v5/image10.png)
+![Configurações de limite de boost](/images/honda/obd2-dpfi/v5/image76.png)
+![Configuração de limite de boost](/images/honda/obd2-dpfi/v5/image77.png)
+
+- Pressão de corte de boost (absoluta): Valor MAP acima do qual o combustível é cortado em caso de excesso de pressão.
+- Histerese de pressão de corte de boost: Se o corte duro for 160kpa, e a histerese for 10, quando a ECU detectar 160kpa, o combustível/ignição será cortado e permanecerá cortado até que 160-10=150kpa seja atingido.
+- 160kpa absoluto = 100 kpa atmosfera + 60 kpa de boost
+
+3. Selecione o modo **Malha aberta** e a saída auxiliar.
+Malha aberta: Regula o ciclo de trabalho da válvula de boost de acordo com os valores percentuais na tabela de controle.
+![Menu de controle de boost](/images/honda/obd2-dpfi/v5/image70.png)
+![Configurações de controle de boost](/images/honda/obd2-dpfi/v5/image78.png)
+![Configuração de controle de boost](/images/honda/obd2-dpfi/v5/image79.png)
+
+4. Configure a tabela de controle de boost em malha aberta.
+![Menu de tabela de boost](/images/honda/obd2-dpfi/v5/image70.png)
+![Configurações de tabela de boost](/images/honda/obd2-dpfi/v5/image80.png)
+![Configuração de tabela de boost](/images/honda/obd2-dpfi/v5/image81.png)
+
+5. É possível habilitar **Malha aberta + Malha fechada** e controlar o boost com mais precisão.
+Malha aberta + Malha fechada: Regula o ciclo de trabalho da válvula de boost usando a tabela de malha aberta, combinada com um algoritmo PID e uma tabela alvo.
+![Menu de boost em malha fechada](/images/honda/obd2-dpfi/v5/image70.png)
+![Configurações de boost em malha fechada](/images/honda/obd2-dpfi/v5/image82.png)
+![Configuração de boost em malha fechada](/images/honda/obd2-dpfi/v5/image83.png)
+![Configurações PID em malha fechada](/images/honda/obd2-dpfi/v5/image84.png)
+![Tabela alvo em malha fechada](/images/honda/obd2-dpfi/v5/image85.png)
+
+## 16. COMBUSTÍVEL FLEX (E85)
+
+Um sensor de combustível flex determina o teor de etanol do combustível antes que ele seja injetado.
+
+1. Conecte o sinal do sensor de combustível flex a uma entrada digital auxiliar.
+2. Selecione a entrada onde o sensor está conectado.
+
+![Menu combustível flex](/images/honda/obd2-dpfi/v5/image33.png)
+![Configurações de combustível flex](/images/honda/obd2-dpfi/v5/image86.png)
+![Configuração de combustível flex](/images/honda/obd2-dpfi/v5/image87.png)
+
+## 17. CEL: Luz de troca de marcha / advertência
+
+A luz do motor pode ser usada como uma saída programável. Eu prefiro usá-la como um indicador de troca de marcha e para avisos de temperatura do líquido de arrefecimento.
+
+![Menu CEL](/images/honda/obd2-dpfi/v5/image70.png)
+![Configurações CEL](/images/honda/obd2-dpfi/v5/image88.png)
+![Configuração CEL](/images/honda/obd2-dpfi/v5/image89.png)
+
+**0 = DESLIGADO**  
+**100 = LIGADO**
+
+## 18. Tacômetro
+
+A bobina do distribuidor original envia o sinal de RPM para o painel, mas a ECU também pode controlá-lo. Ao converter para bobinas individuais, o sinal do distribuidor deixa de funcionar, então a ECU deve fornecê-lo.
+
+1. Selecione a saída Low-Side 11 para enviar o sinal de RPM.
+![Menu do tacômetro](/images/honda/obd2-dpfi/v5/image10.png)
+![Configurações do tacômetro](/images/honda/obd2-dpfi/v5/image39.png)
+![Configuração do tacômetro](/images/honda/obd2-dpfi/v5/image90.png)
+
+2. Se você ainda estiver usando a bobina do distribuidor e quiser controlar o RPM pela ECU, remova o fio:
+![Localização do fio do tacômetro](/images/honda/obd2-dpfi/v5/image91.png)
+
+3. Selecione o interruptor TACH para **SIM**.
+![Configuração do interruptor TACH](/images/honda/obd2-dpfi/v5/image92.png)
+
+## 19. Entradas/saídas auxiliares
+
+**LOW SIDE:** Controla injetores e válvulas usando um sinal de terra, suportando até 10A.
+
+![Diagrama de saídas Low Side](/images/honda/obd2-dpfi/v5/image93.png)
+
+- **L19 a L24:** Configuráveis para qualquer função auxiliar
+
+**HIGH SIDE:** Controla bobinas de ignição inteligentes com sinais de 5V ou 12V.
+
+![Diagrama de saídas High Side](/images/honda/obd2-dpfi/v5/image94.png)
+
+- **H5 a H12:** Configuráveis para qualquer função auxiliar
+
+**ANALÓGICAS:** Entradas para sensores com saída de 0-5V ou para sensores de temperatura.
+
+![Pinagem do conector OBD1 B](/images/honda/obd2-dpfi/v5/image18.png)
+
+| Conector OBD1 B | Entrada Analógica Tunerstudio | Função |
+| ---------------- | ------------------------ | -------- |
+| B2 | Entrada Analógica 5 | Sensor MAP na placa |
+| B4 | Entrada Analógica 7 | Livre |
+| B6 | Entrada Analógica 8 | Livre |
+| B8 | Entrada Analógica 9 | Entrada Knock |
+| B10 | Entrada Analógica 10 | Livre |
+| B12 | Entrada Analógica 11 | Livre |
+| B14 | Entrada Analógica 12 | Livre |
+
+**NOTA 1:** Se nenhum sensor estiver conectado, pode ser reutilizado para qualquer outra função.  
+**NOTA 2:** Para usar sensores de temperatura, o interruptor de entrada correspondente deve ser definido na posição LIGADO.
+
+![Interruptores de sensor de temperatura](/images/honda/obd2-dpfi/v5/image95.png)
+
+**DIGITAIS:** Entradas para sensores hall (0-5V)
+
+![Pinagem do conector OBD1 B](/images/honda/obd2-dpfi/v5/image18.png)
+
+| Conector OBD1 B | Entrada Analógica Tunerstudio | Função |
+| ---------------- | ------------------------ | -------- |
+| B1 | Entrada Digital 6 | Livre |
+| B3 | Entrada Digital 7 | Livre |
+| B5 | Entrada Digital 8 | Livre |
+
+**NOTA 1:** Se nenhum sensor estiver conectado, pode ser reutilizado para qualquer outra função.
+
+**SENSORES:** Fornece saída de 5V e terra para alimentar sensores de pressão e temperatura.
+
+![Pinagem do conector OBD1 B](/images/honda/obd2-dpfi/v5/image18.png)
+
+| Conector OBD1 B | Entrada Analógica Tunerstudio | Função |
+| ---------------- | ------------------------ | -------- |
+| B7 |  | +5V |
+| B9 |  | +5V |
+| B11 |  | +12V |
+| B13 |  | Terra |
+| B15 |  | Terra |
+| B16 |  | Terra |
+
+**EGT:** Entradas para sensores de temperatura de escape (Tipo K)
+
+![Entradas de sensor EGT](/images/honda/obd2-dpfi/v5/image96.png)
+
+**Drive-by-wire:** Controla um corpo de borboleta eletrônico de 2 fios ou ITB.
+
+![Conexões Drive-by-wire](/images/honda/obd2-dpfi/v5/image97.png)
+
+- **OUT- & OUT+:** Saída para motor ETB
+- **5V:** Alimentação para os potenciômetros
+- **GND:** Terra para os potenciômetros
+
+**NOTA 1:** Se nenhum sensor estiver conectado, pode ser reutilizado para qualquer outra função.
+
+## 20. PINAGEM: OBD1 DPFI
+
+### Conector A
+
+![Diagrama do conector OBD1 DPFI](/images/honda/obd2-dpfi/v5/image98.png)
+
+| OBD1 | FUNÇÃO | TUNERSTUDIO |
+| ---- | -------- | ----------- |
+| **A1** | <div style="background-color: #ADD8E6; color: black;">Injetor 1 / 4</div> | <div style="background-color: #ADD8E6; color: black;">Low Side 1</div> |
+| **A2** | Terra |  |
+| **A3** | <div style="background-color: #ADD8E6; color: black;">Injetor 2 / 3</div> | <div style="background-color: #ADD8E6; color: black;">Low Side 2</div> |
+| **A4** | Terra |  |
+| **A5** | <div style="background-color: #ADD8E6; color: black;">Solenoide VTEC</div> | <div style="background-color: #ADD8E6; color: black;">Low Side 3</div> |
+| **A6** | <div style="background-color: #E6E6FA; color: black;">Interruptor de Freio</div> | <div style="background-color: #E6E6FA; color: black;">Entrada Digital 3</div> |
+| **A7** | <div style="background-color: #ADD8E6; color: black;">Relé da Bomba de Combustível</div> | <div style="background-color: #ADD8E6; color: black;">Low Side 4</div> |
+| **A8** | <div style="background-color: #ADD8E6; color: black;">Relé da Ventoinha</div> | <div style="background-color: #ADD8E6; color: black;">Low Side 5</div> |
+| **A9** | <div style="background-color: #ADD8E6; color: black;">Solenoide de Purga</div> | <div style="background-color: #ADD8E6; color: black;">Low Side 6</div> |
+| **A10** | <div style="background-color: #ADD8E6; color: black;">Controle do Alternador</div> | <div style="background-color: #ADD8E6; color: black;">Low Side 7</div> |
+| **A11** | <div style="background-color: #ADD8E6; color: black;">IACV N</div> | <div style="background-color: #ADD8E6; color: black;">Low Side 12</div> |
+| **A12** | <div style="background-color: #ADD8E6; color: black;">CEL</div> | <div style="background-color: #ADD8E6; color: black;">Low Side 9</div> |
+| **A13** | <div style="background-color: #ADD8E6; color: black;">IACV P</div> | <div style="background-color: #ADD8E6; color: black;">Low Side 10</div> |
+| **A14** | <div style="background-color: #ADD8E6; color: black;">Relé da Embreagem A/C</div> | <div style="background-color: #ADD8E6; color: black;">Low Side 11</div> |
+| **A15** | Livre: Injetor | <div style="background-color: #ADD8E6; color: black;">Low Side 12</div> |
+| **A16** | <div style="background-color: #FFFFE0; color: black;">ICM do Distribuidor</div> | <div style="background-color: #FFFFE0; color: black;">High side 1</div> |
+| **A17** | Livre: Injetor | <div style="background-color: #ADD8E6; color: black;">Low Side 13</div> |
+| **A18** | <div style="background-color: #E6E6FA; color: black;">Interruptor de Embreagem</div> | <div style="background-color: #E6E6FA; color: black;">Entrada Digital 4</div> |
+| **A20** | <div style="background-color: #E6E6FA; color: black;">Sinal A/C</div> | <div style="background-color: #E6E6FA; color: black;">Entrada Digital 2</div> |
+| **A21** | <div style="background-color: #E6E6FA; color: black;">Interruptor da Direção Assistida</div> | <div style="background-color: #E6E6FA; color: black;">Entrada Digital 5</div> |
+| **A23 / A25** | +12V ignição |  |
+| **A24 / A26** | Terra |  |
+
+### Conector B
+
+![Diagrama do conector OBD1 B](/images/honda/obd2-dpfi/v5/image99.png)
+
+| OBD1 | FUNÇÃO | TUNERSTUDIO |
+| ---- | -------- | ----------- |
+| **B1** | Livre | <div style="background-color: #E6E6FA; color: black;">Entrada Digital 6</div> |
+| **B2** | <div style="background-color: #FFE4B5; color: black;">Sensor MAP na placa</div> | <div style="background-color: #FFE4B5; color: black;">Entrada Analógica 5</div> |
+| **B3** | Livre | <div style="background-color: #E6E6FA; color: black;">Entrada Digital 7</div> |
+| **B4** | Livre | <div style="background-color: #FFE4B5; color: black;">Entrada Analógica 7</div> |
+| **B5** | Livre | <div style="background-color: #E6E6FA; color: black;">Entrada Digital 8</div> |
+| **B6** | Livre | <div style="background-color: #FFE4B5; color: black;">Entrada Analógica 8</div> |
+| **B7** | +5V para sensores |  |
+| **B8** | <div style="background-color: #FFE4B5; color: black;">Entrada Knock</div> | <div style="background-color: #FFE4B5; color: black;">Entrada Analógica 9</div> |
+| **B9** | +5V para sensores |  |
+| **B10** | Livre | <div style="background-color: #FFE4B5; color: black;">Entrada Analógica 10</div> |
+| **B11** | +12V para sensores |  |
+| **B12** | Livre | <div style="background-color: #FFE4B5; color: black;">Entrada Analógica 11</div> |
+| **B13** | Terra para sensores |  | 
+| **B14** | Livre | <div style="background-color: #FFE4B5; color: black;">Entrada Analógica 12</div> |
+| **B15** | Terra para sensores |  |
+| **B16** | Terra para sensores |  |
+
+### Conector C
+
+![Diagrama do conector OBD1 C](/images/honda/obd2-dpfi/v5/image100.png)
+
+| OBD1 | FUNÇÃO | TUNERSTUDIO |
+| ---- | -------- | ----------- |
+| **C1** | <div style="background-color: white; color: black;">Livre</div> | <div style="background-color: lightblue; color: black;">Low side 14</div> |
+| **C2** | <div style="background-color: lightgreen; color: black;">LSU 4.9 - PINO 5 (IA)</div> | |
+| **C3** | <div style="background-color: lightblue; color: black;">Saída do Tacômetro</div> | <div style="background-color: lightblue; color: black;">Low side 15</div> |
+| **C4** | <div style="background-color: black; color: white;">LSU 4.9 - PINO 6 (NERMEST)</div> | |
+| **C5** | <div style="background-color: #FFECB3; color: black;">Bobina 1</div> | <div style="background-color: #FFECB3; color: black;">High side 1 (E15)</div> |
+| **C6** | <div style="background-color: #FF9E80; color: black;">LSU 4.9 - PINO 1 (IP)</div> | |
+| **C7** | <div style="background-color: #FFECB3; color: black;">Bobina 2</div> | <div style="background-color: #FFECB3; color: black;">High side 2 (E14)</div> |
+| **C8** | <div style="background-color: #FFD700; color: black;">LSU 4.9 - PINO 2 (VGND)</div> | |
+| **C9** | <div style="background-color: #FFECB3; color: black;">Bobina 3</div> | <div style="background-color: #FFECB3; color: black;">High side 3 (E13)</div> |
+| **C10** | <div style="background-color: black; color: white;">LSU 4.9 - PINO 3 (HEATER-)</div> | |
+| **C11** | <div style="background-color: #FFECB3; color: black;">Bobina 4</div> | <div style="background-color: #FFECB3; color: black;">High side 4 (E12)</div> |
+| **C12** | <div style="background-color: black; color: white;">LSU 4.9 - PINO 4 (HEATER+)</div> | |
+
+### Conector D
+
+![Diagrama do conector OBD1 D](/images/honda/obd2-dpfi/v5/image101.png)
+
+| OBD1 | FUNÇÃO | TUNERSTUDIO |
+| ---- | -------- | ----------- |
+| **D2** | <div style="background-color: #E6E6FA; color: black;">Livre - Entrada Hall</div> | <div style="background-color: #FFB6B6; color: black;">VR/Hall 2</div> |
+| **D3** | <div style="background-color: #FFB6C1; color: black;">Sensor de Velocidade do Veículo</div> | <div style="background-color: #FFB6B6; color: black;">Entrada Digital 1</div> |
+| **D7** | <div style="background-color: #FFB6B6; color: black;">PMS</div> | <div style="background-color: #FFB6B6; color: black;">VR/Hall 1</div> |
+| **D8** | <div style="background-color: #ADD8E6; color: black;">Saída do Tacômetro</div> | <div style="background-color: #ADD8E6; color: black;">Low Side 15</div> |
+| **D9** | Livre | <div style="background-color: #ADD8E6; color: black;">Low Side 16</div> |
+| **D10** | Livre | <div style="background-color: #ADD8E6; color: black;">Low Side 17</div> |
+| **D11** | <div style="background-color: #FFDAB9; color: black;">Sensor de posição do acelerador</div> | <div style="background-color: #FFDAB9; color: black;">Entrada Analógica 1</div> |
+| **D13** | <div style="background-color: #FFDAB9; color: black;">Sensor de pressão do coletor</div> | <div style="background-color: #FFDAB9; color: black;">Entrada Analógica 4</div> |
+| **D15** | <div style="background-color: #FFDAB9; color: black;">Sensor de temperatura do ar de admissão</div> | <div style="background-color: #FFDAB9; color: black;">Entrada Analógica 3</div> |
+| **D16** | Livre | <div style="background-color: #ADD8E6; color: black;">Low Side 18</div> |
+| **D17** | <div style="background-color: #FFDAB9; color: black;">Sensor de temperatura do líquido de arrefecimento</div> | <div style="background-color: #FFDAB9; color: black;">Entrada Analógica 2</div> |
+| **D19** | Terra MAP |  |
+| **D20** | Terra TPS |  |
+| **D21** | MAP +5V |  |
+| **D22** | TPS +5V |  | 

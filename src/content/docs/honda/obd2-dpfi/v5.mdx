@@ -3,7 +3,28 @@ title: Honduino OBD2 DPFI - V5
 description: This is the documentation for the installation and configuration of the Honduino OBD2 DPFI - V5.
 ---
 
+
 ![BossGarage Logo](/images/logo.png)
+
+The **Honduino OBD2 DPFI** is an advanced aftermarket engine control unit (ECU) designed specifically for Honda vehicles with *DPFI (Dual Point Fuel Injection)* systems. This comprehensive guide covers the complete setup, calibration, and advanced configuration of the **V5 version** of this ECU.
+
+This documentation covers:
+
+- **Pre-installation** firmware updates and software setup
+- **Basic ECU configuration:**
+  - *Trigger wheel settings*
+  - *Ignition parameters*
+  - *Injection configurations*
+- **Vehicle integration** and sensor calibration
+- **Advanced features** including:
+  - *Wideband O2 sensing*
+  - *Launch control and anti-lag*
+  - *Boost control*
+  - *FLEX fuel compatibility*
+  - *Custom output configuration (CEL, shift lights)*
+- **Complete pinout diagrams** and connection references
+
+Whether you're upgrading from a stock ECU, migrating from an older version, or installing a new aftermarket unit, this guide provides *detailed instructions* to achieve **optimal performance** with your Honduino OBD2 DPFI V5.
 
 ## Before connecting the ECU to the car
 
@@ -230,7 +251,7 @@ The crank pulley has four marks, with the alone mark of the four being 0 degrees
 ![Idle timing settings](/images/honda/obd2-dpfi/v5/image58.png)
 ![Idle timing configuration](/images/honda/obd2-dpfi/v5/image59.png)
 
-## 9. VTEC solenoid
+## VTEC solenoid
 
 This engine doesn't have VTEC solenoid, but you can change to a head with VTEC.
 
@@ -241,13 +262,13 @@ This engine doesn't have VTEC solenoid, but you can change to a head with VTEC.
 **0 = OFF**  
 **100 = ON**
 
-## 10. Vehicle Speed Sensor
+## Vehicle Speed Sensor
 
 ![VSS menu](/images/honda/obd2-dpfi/v5/image33.png)
 ![VSS settings](/images/honda/obd2-dpfi/v5/image63.png)
 ![VSS configuration](/images/honda/obd2-dpfi/v5/image64.png)
 
-## 11. Air Conditioner
+## Air Conditioner
 
 ![A/C menu](/images/honda/obd2-dpfi/v5/image10.png)
 ![A/C settings](/images/honda/obd2-dpfi/v5/image65.png)
@@ -255,20 +276,46 @@ This engine doesn't have VTEC solenoid, but you can change to a head with VTEC.
 
 ## Extra features
 
-## 12. Wideband
+## Wideband
 
 To tune the VE table, a wideband sensor for measuring the air-fuel ratio is necessary.
 
 1. You can either connect an LSU 4.9 sensor directly to the onboard controller or use a 0-5V signal from an external controller via an auxiliary analog input.
 ![OBD1 C connector pinout](/images/honda/obd2-dpfi/v5/image18.png)
-| OBD1 C connector | LSU 4.9 sensor |
-| ---------------- | -------------- |
-| **C2** | 5 (IA) |
-| **C4** | 6 (NERMEST) |
-| **C6** | 1 (IP) |
-| **C8** | 2 (VGND) |
-| **C10** | 3 (HEATER-) |
-| **C12** | 4 (HEATER+) |
+<table>
+	<thead>
+		<tr>
+		<th>OBD1 C connector</th>
+		<th>LSU 4.9 sensor</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+		<td>C2</td>
+		<td style="background-color: #8eda8e; color: black;">5 (IA)</td>
+		</tr>
+		<tr>
+		<td>C4</td>
+		<td style="background-color: #000000; color: #ffffff;">6 (NERMEST)</td>
+		</tr>
+		<tr>
+		<td>C6</td>
+		<td style="background-color: #f78a8a; color: black;">1 (IP)</td>
+		</tr>
+		<tr>
+		<td>C8</td>
+		<td style="background-color: #ffd966; color: black;">2 (VGND)</td>
+		</tr>
+		<tr>
+		<td>C10</td>
+		<td style="background-color: #ffffff; color: black;">3 (HEATER-)</td>
+		</tr>
+		<tr>
+		<td>C12</td>
+		<td style="background-color: #d0d0d0; color: black;">4 (HEATER+)</td>
+		</tr>
+	</tbody>
+</table>
 ![Wideband sensor connection diagram](/images/honda/obd2-dpfi/v5/image67.png)
 
 2. Configure the wideband linear output values
@@ -276,9 +323,9 @@ To tune the VE table, a wideband sensor for measuring the air-fuel ratio is nece
 ![Wideband settings](/images/honda/obd2-dpfi/v5/image68.png)
 ![Wideband configuration](/images/honda/obd2-dpfi/v5/image69.png)
 
-## 13. Launch control
+## Launch control
 
-The launch control is used to launch... **I mean, spit flames, a lot of 🔥🔥🔥!**
+Launch control is used for... **I mean, for spitting flames, lots of 🔥🔥🔥!**
 
 Select the activation mode: It can be Speed-based, Launch, Clutch, or Brake button.
 
@@ -289,13 +336,13 @@ If you choose to use a button, some cars have clutch switches, but most will nee
 ![Launch control configuration](/images/honda/obd2-dpfi/v5/image72.png)
 
 - **Launch RPM:** A secondary Rev limit engaged by the driver to help launch the vehicle faster.
-- **Ignition Retard Adder:** Range from Launch RPM for Timing Retard to activate. 
+- **Ignition Retard Adder:** Range from Launch RPM for Timing Retard to activate.
 - **Hard Cut RPM Adder:** Range from Launch RPM to activate Hard Cut.
 - **Smooth Retard Mode:** Interpolates the Ignition Retard from 0 to 100% within the RPM Range.
 
-## 14. Anti-lag
+## Anti-lag
 
-The ANTI-LAG is used to help decrease the lag of the... **I mean, spit flames, a lot of 🔥🔥🔥!** 
+ANTI-LAG is used to help reduce turbo... **I mean, for spitting flames, lots of 🔥🔥🔥!**
 
 Wire a switch that sends a ground signal to an unused auxiliary digital input.
 
@@ -303,7 +350,7 @@ Wire a switch that sends a ground signal to an unused auxiliary digital input.
 ![Anti-lag settings](/images/honda/obd2-dpfi/v5/image74.png)
 ![Anti-lag configuration](/images/honda/obd2-dpfi/v5/image75.png)
 
-## 15. Boost control
+## Boost control
 
 A [boost controller](https://bossgarage.eu/en/products/mac-electronic-boost-pressure-valve) is a device used to increase the boost pressure produced by the turbocharger.
 
@@ -337,7 +384,7 @@ Open + Closed-loop: Regulates the boost valve's duty cycle using the open-loop t
 ![Closed-loop PID settings](/images/honda/obd2-dpfi/v5/image84.png)
 ![Closed-loop target table](/images/honda/obd2-dpfi/v5/image85.png)
 
-## 16. FLEX FUEL (E85)
+## FLEX FUEL (E85)
 
 A flex fuel sensor determines the ethanol content of the fluent fuel before it is injected.
 
@@ -348,7 +395,7 @@ A flex fuel sensor determines the ethanol content of the fluent fuel before it i
 ![Flex fuel settings](/images/honda/obd2-dpfi/v5/image86.png)
 ![Flex fuel configuration](/images/honda/obd2-dpfi/v5/image87.png)
 
-## 17. CEL: Shift / Warning light
+## CEL: Shift / Warning light
 
 The engine light can be used as a programmable output. I prefer to use it as a shift indicator and for coolant temperature warnings.
 
@@ -359,7 +406,7 @@ The engine light can be used as a programmable output. I prefer to use it as a s
 **0 = OFF**  
 **100 = ON**
 
-## 18. Tachometer
+## Tachometer
 
 The stock distributor coil sends the RPM signal to the cluster, but the ECU can also control it. When converting to coil-on-plug, the signal from the distributor stops working, so the ECU must provide it.
 
@@ -374,7 +421,7 @@ The stock distributor coil sends the RPM signal to the cluster, but the ECU can 
 3. Select the TACH switch to **YES**.
 ![TACH switch setting](/images/honda/obd2-dpfi/v5/image92.png)
 
-## 19. Auxiliary inputs/outputs
+## Auxiliary inputs/outputs
 
 **LOW SIDE:** Controls injectors and valves using a ground signal, handling up to 10A.
 
@@ -454,26 +501,26 @@ The stock distributor coil sends the RPM signal to the cluster, but the ECU can 
 
 | OBD1 | FUNCTION | TUNERSTUDIO |
 | ---- | -------- | ----------- |
-| **A1** | Injector 1 / 4 | Low Side 1 |
+| **A1** | <div style="background-color: #ADD8E6; color: black;">Injector 1 / 4</div> | <div style="background-color: #ADD8E6; color: black;">Low Side 1</div> |
 | **A2** | Ground |  |
-| **A3** | Injector 2 / 3 | Low Side 2 |
+| **A3** | <div style="background-color: #ADD8E6; color: black;">Injector 2 / 3</div> | <div style="background-color: #ADD8E6; color: black;">Low Side 2</div> |
 | **A4** | Ground |  |
-| **A5** | VTEC Solenoid | Low Side 3 |
-| **A6** | Brake Switch | Digital Input 3 |
-| **A7** | Fuel Pump Relay | Low Side 4 |
-| **A8** | FAN Relay | Low Side 5 |
-| **A9** | Purge Solenoid | Low Side 6 |
-| **A10** | Alternator Control | Low Side 7 |
-| **A11** | IACV N | Low Side 12 |
-| **A12** | CEL | Low Side 9 |
-| **A13** | IACV P | Low Side 10 |
-| **A14** | A/C Clutch Relay | Low Side 11 |
-| **A15** | Free: Injector | Low Side 12 |
-| **A16** | Distributor ICM | High side 1 |
-| **A17** | Free: Injector | Low Side 13 |
-| **A18** | Clutch Switch | Digital Input 4 |
-| **A20** | A/C Signal | Digital Input 2 |
-| **A21** | Power Steering Switch | Digital Input 5 |
+| **A5** | <div style="background-color: #ADD8E6; color: black;">VTEC Solenoid</div> | <div style="background-color: #ADD8E6; color: black;">Low Side 3</div> |
+| **A6** | <div style="background-color: #E6E6FA; color: black;">Brake Switch</div> | <div style="background-color: #E6E6FA; color: black;">Digital Input 3</div> |
+| **A7** | <div style="background-color: #ADD8E6; color: black;">Fuel Pump Relay</div> | <div style="background-color: #ADD8E6; color: black;">Low Side 4</div> |
+| **A8** | <div style="background-color: #ADD8E6; color: black;">FAN Relay</div> | <div style="background-color: #ADD8E6; color: black;">Low Side 5</div> |
+| **A9** | <div style="background-color: #ADD8E6; color: black;">Purge Solenoid</div> | <div style="background-color: #ADD8E6; color: black;">Low Side 6</div> |
+| **A10** | <div style="background-color: #ADD8E6; color: black;">Alternator Control</div> | <div style="background-color: #ADD8E6; color: black;">Low Side 7</div> |
+| **A11** | <div style="background-color: #ADD8E6; color: black;">IACV N</div> | <div style="background-color: #ADD8E6; color: black;">Low Side 12</div> |
+| **A12** | <div style="background-color: #ADD8E6; color: black;">CEL</div> | <div style="background-color: #ADD8E6; color: black;">Low Side 9</div> |
+| **A13** | <div style="background-color: #ADD8E6; color: black;">IACV P</div> | <div style="background-color: #ADD8E6; color: black;">Low Side 10</div> |
+| **A14** | <div style="background-color: #ADD8E6; color: black;">A/C Clutch Relay</div> | <div style="background-color: #ADD8E6; color: black;">Low Side 11</div> |
+| **A15** | Free: Injector | <div style="background-color: #ADD8E6; color: black;">Low Side 12</div> |
+| **A16** | <div style="background-color: #FFFFE0; color: black;">Distributor ICM</div> | <div style="background-color: #FFFFE0; color: black;">High side 1</div> |
+| **A17** | Free: Injector | <div style="background-color: #ADD8E6; color: black;">Low Side 13</div> |
+| **A18** | <div style="background-color: #E6E6FA; color: black;">Clutch Switch</div> | <div style="background-color: #E6E6FA; color: black;">Digital Input 4</div> |
+| **A20** | <div style="background-color: #E6E6FA; color: black;">A/C Signal</div> | <div style="background-color: #E6E6FA; color: black;">Digital Input 2</div> |
+| **A21** | <div style="background-color: #E6E6FA; color: black;">Power Steering Switch</div> | <div style="background-color: #E6E6FA; color: black;">Digital Input 5</div> |
 | **A23 / A25** | +12V ignition |  |
 | **A24 / A26** | Ground |  |
 
@@ -483,20 +530,20 @@ The stock distributor coil sends the RPM signal to the cluster, but the ECU can 
 
 | OBD1 | FUNCTION | TUNERSTUDIO |
 | ---- | -------- | ----------- |
-| **B1** | Free | Digital Input 6 |
-| **B2** | Onboard MAP sensor | Analog Input 5 |
-| **B3** | Free | Digital Input 7 |
-| **B4** | Free | Analog Input 7 |
-| **B5** | Free | Digital Input 8 |
-| **B6** | Free | Analog Input 8 |
+| **B1** | Free | <div style="background-color: #E6E6FA; color: black;">Digital Input 6</div> |
+| **B2** | <div style="background-color: #FFE4B5; color: black;">Onboard MAP sensor</div> | <div style="background-color: #FFE4B5; color: black;">Analog Input 5</div> |
+| **B3** | Free | <div style="background-color: #E6E6FA; color: black;">Digital Input 7</div> |
+| **B4** | Free | <div style="background-color: #FFE4B5; color: black;">Analog Input 7</div> |
+| **B5** | Free | <div style="background-color: #E6E6FA; color: black;">Digital Input 8</div> |
+| **B6** | Free | <div style="background-color: #FFE4B5; color: black;">Analog Input 8</div> |
 | **B7** | +5V for sensors |  |
-| **B8** | Knock Input | Analog Input 9 |
+| **B8** | <div style="background-color: #FFE4B5; color: black;">Knock Input</div> | <div style="background-color: #FFE4B5; color: black;">Analog Input 9</div> |
 | **B9** | +5V for sensors |  |
-| **B10** | Free | Analog Input 10 |
+| **B10** | Free | <div style="background-color: #FFE4B5; color: black;">Analog Input 10</div> |
 | **B11** | +12V for sensors |  |
-| **B12** | Free | Analog Input 11 |
+| **B12** | Free | <div style="background-color: #FFE4B5; color: black;">Analog Input 11</div> |
 | **B13** | Ground for sensors |  |
-| **B14** | Free | Analog Input 12 |
+| **B14** | Free | <div style="background-color: #FFE4B5; color: black;">Analog Input 12</div> |
 | **B15** | Ground for sensors |  |
 | **B16** | Ground for sensors |  |
 
@@ -506,18 +553,18 @@ The stock distributor coil sends the RPM signal to the cluster, but the ECU can 
 
 | OBD1 | FUNCTION | TUNERSTUDIO |
 | ---- | -------- | ----------- |
-| **C1** | Free | Low side 14 |
-| **C2** | LSU 4.9 - PIN 5 (IA) |  |
-| **C3** | Tachometer Output | Low side 15 |
-| **C4** | LSU 4.9 - PIN 6 (NERMEST) |  |
-| **C5** | Coil 1 | High side 1 (E15) |
-| **C6** | LSU 4.9 - PIN 1 (IP) |  |
-| **C7** | Coil 2 | High side 2 (E14) |
-| **C8** | LSU 4.9 - PIN 2 (VGND) |  |
-| **C9** | Coil 3 | High side 3 (E13) |
-| **C10** | LSU 4.9 - PIN 3 (HEATER-) |  |
-| **C11** | Coil 4 | High side 4 (E12) |
-| **C12** | LSU 4.9 - PIN 4 (HEATER+) |  |
+| **C1** | <div style="background-color: white; color: black;">Free</div> | <div style="background-color: lightblue; color: black;">Low side 14</div> |
+| **C2** | <div style="background-color: lightgreen; color: black;">LSU 4.9 - PIN 5 (IA)</div> | |
+| **C3** | <div style="background-color: lightblue; color: black;">Tachometer Output</div> | <div style="background-color: lightblue; color: black;">Low side 15</div> |
+| **C4** | <div style="background-color: black; color: white;">LSU 4.9 - PIN 6 (NERMEST)</div> | |
+| **C5** | <div style="background-color: #FFECB3; color: black;">Coil 1</div> | <div style="background-color: #FFECB3; color: black;">High side 1 (E15)</div> |
+| **C6** | <div style="background-color: #FF9E80; color: black;">LSU 4.9 - PIN 1 (IP)</div> | |
+| **C7** | <div style="background-color: #FFECB3; color: black;">Coil 2</div> | <div style="background-color: #FFECB3; color: black;">High side 2 (E14)</div> |
+| **C8** | <div style="background-color: #FFD700; color: black;">LSU 4.9 - PIN 2 (VGND)</div> | |
+| **C9** | <div style="background-color: #FFECB3; color: black;">Coil 3</div> | <div style="background-color: #FFECB3; color: black;">High side 3 (E13)</div> |
+| **C10** | <div style="background-color: black; color: white;">LSU 4.9 - PIN 3 (HEATER-)</div> | |
+| **C11** | <div style="background-color: #FFECB3; color: black;">Coil 4</div> | <div style="background-color: #FFECB3; color: black;">High side 4 (E12)</div> |
+| **C12** | <div style="background-color: black; color: white;">LSU 4.9 - PIN 4 (HEATER+)</div> | 
 
 ### Connector D
 
@@ -525,17 +572,17 @@ The stock distributor coil sends the RPM signal to the cluster, but the ECU can 
 
 | OBD1 | FUNCTION | TUNERSTUDIO |
 | ---- | -------- | ----------- |
-| **D2** | Free - Hall Input | VR/Hall 2 |
-| **D3** | Vehicle Speed Sensor | Digital Input 1 |
-| **D7** | TDC | VR/Hall 1 |
-| **D8** | Tachometer Output | Low Side 15 |
-| **D9** | Free | Low Side 16 |
-| **D10** | Free | Low Side 17 |
-| **D11** | Throttle position sensor | Analog Input 1 |
-| **D13** | Manifold air pressure sensor | Analog Input 4 |
-| **D15** | Intake air temperature sensor | Analog Input 3 |
-| **D16** | Free | Low Side 18 |
-| **D17** | Coolant temperature sensor | Analog input 2 |
+| **D2** | <div style="background-color: #E6E6FA; color: black;">Free - Hall Input</div> | <div style="background-color: #FFB6B6; color: black;">VR/Hall 2</div> |
+| **D3** | <div style="background-color: #FFB6C1; color: black;">Vehicle Speed Sensor</div> | <div style="background-color: #FFB6B6; color: black;">Digital Input 1</div> |
+| **D7** | <div style="background-color: #FFB6B6; color: black;">TDC</div> | <div style="background-color: #FFB6B6; color: black;">VR/Hall 1</div> |
+| **D8** | <div style="background-color: #ADD8E6; color: black;">Tachometer Output</div> | <div style="background-color: #ADD8E6; color: black;">Low Side 15</div> |
+| **D9** | Free | <div style="background-color: #ADD8E6; color: black;">Low Side 16</div> |
+| **D10** | Free | <div style="background-color: #ADD8E6; color: black;">Low Side 17</div> |
+| **D11** | <div style="background-color: #FFDAB9; color: black;">Throttle position sensor</div> | <div style="background-color: #FFDAB9; color: black;">Analog Input 1</div> |
+| **D13** | <div style="background-color: #FFDAB9; color: black;">Manifold air pressure sensor</div> | <div style="background-color: #FFDAB9; color: black;">Analog Input 4</div> |
+| **D15** | <div style="background-color: #FFDAB9; color: black;">Intake air temperature sensor</div> | <div style="background-color: #FFDAB9; color: black;">Analog Input 3</div> |
+| **D16** | Free | <div style="background-color: #ADD8E6; color: black;">Low Side 18</div> |
+| **D17** | <div style="background-color: #FFDAB9; color: black;">Coolant temperature sensor</div> | <div style="background-color: #FFDAB9; color: black;">Analog input 2</div> |
 | **D19** | MAP ground |  |
 | **D20** | TPS ground |  |
 | **D21** | MAP +5V |  |

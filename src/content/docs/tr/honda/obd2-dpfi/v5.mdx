@@ -1,0 +1,429 @@
+---
+title: "Honduino OBD2 DPFI - V5"
+description: "Bu, Honduino OBD2 DPFI - V5'in kurulum ve yapılandırma dokümantasyonudur."
+---
+
+![BossGarage Logo](/images/logo.png)
+
+**Honduino OBD2 DPFI**, *DPFI (Dual Point Fuel Injection)* sistemlerine sahip Honda araçları için özel olarak tasarlanmış gelişmiş bir aftermarket motor kontrol ünitesidir (ECU). Bu kapsamlı kılavuz, bu ECU'nun **V5 versiyonunun** tam kurulumunu, kalibrasyonunu ve gelişmiş yapılandırmasını kapsamaktadır.
+
+Bu dokümantasyon şunları içerir:
+
+- **Kurulum öncesi** yazılım güncellemeleri ve yazılım kurulumu
+- **Temel ECU yapılandırması:**
+  - *Trigger çarkı ayarları*
+  - *Ateşleme parametreleri*
+  - *Enjeksiyon yapılandırmaları*
+- **Araç entegrasyonu** ve sensör kalibrasyonu
+- **Gelişmiş özellikler** dahil:
+  - *Geniş bant O2 sensörü*
+  - *Launch control ve anti-lag*
+  - *Boost kontrolü*
+  - *FLEX yakıt uyumluluğu*
+  - *Özel çıkış yapılandırması (CEL, vites değiştirme ışıkları)*
+- **Tam pin diyagramları** ve bağlantı referansları
+
+Orijinal ECU'dan yükseltme yapıyor olun, eski bir sürümden geçiş yapıyor olun veya yeni bir aftermarket ünite kurulumu yapıyor olun, bu kılavuz Honduino OBD2 DPFI V5 ile **optimum performans** elde etmek için *detaylı talimatlar* sağlar.
+
+## ECU'yu araca bağlamadan önce
+
+ECU'yu araca monte etmeden önce, bazı ön kurulum yapılandırmaları gerçekleştirilmelidir.
+
+## Yazılımı güncelleme (isteğe bağlı)
+
+1. [STM32CubeProgrammer V2.14](https://www.st.com/en/development-tools/stm32cubeprog.html#get-software) indirin ve kurun
+2. En son FIRMWARE'i indirin
+3. Kart üzerindeki **BOOT** düğmesine basın ve USB kablosunu bilgisayara takın
+![Honduino OBD2 DPFI ECU kartı üzerindeki BOOT düğmesinin konumu](/images/honda/obd2-dpfi/v5/image2.png)
+4. STM32CubeProgrammer'da USB'yi seçin, cihazları yenileyin, ECU'yu seçin ve bağlanın.
+![STM32CubeProgrammer USB bağlantı ayarları](/images/honda/obd2-dpfi/v5/image3.png)
+![STM32CubeProgrammer cihaz seçim açılır menüsü](/images/honda/obd2-dpfi/v5/image4.png)
+5. "Silme ve programlama" menüsüne gidin, daha önce çıkarılan firmware.ini dosyasını göz atın ve seçin.
+![STM32CubeProgrammer silme ve programlama menüsü](/images/honda/obd2-dpfi/v5/image5.png)
+![STM32CubeProgrammer firmware dosyası seçim iletişim kutusu](/images/honda/obd2-dpfi/v5/image6.png)
+6. Başlangıç adresini girin: 0x0800000
+7. Kutuları seçin: "Programlamadan sonra çalıştır", "Tam çip silme" ve "Dosyayı indir"
+8. "Programlamayı Başlat"a tıklayın
+9. Yazılımı başarıyla güncellediniz! Şimdi, tüm STM32CubeProgrammer pencerelerini kapatın ve RESET düğmesine tıklayarak veya USB kablosunu çıkarıp tekrar takarak ECU'yu yeniden başlatın.
+
+## Yazılıma bağlanma
+
+1. İndirin ve kurun: [TunerStudio](https://www.tunerstudio.com/index.php/downloads)
+2. USB'yi takın, otomatik olarak bir dosya içeren sanal bir sürücü açılacaktır
+![Firmware.ini dosya simgesi](/images/honda/obd2-dpfi/v5/image7.png)
+3. Çıkarın ve masaüstüne kaydedin.
+4. TunerStudio'yu açın, yeni bir proje oluşturun, "Diğer / Göz at"a tıklayın ve daha önce çıkardığınız firmware.ini dosyasını seçin.
+![TunerStudio proje oluşturma sihirbazı](/images/honda/obd2-dpfi/v5/image8.png)
+5. USB bağlantısı için RS232 Serial veya Bluetooth direkt kullanın
+![TunerStudio bağlantı ayarları paneli](/images/honda/obd2-dpfi/v5/image9.png)
+
+## Temel ayarlar
+
+Silindir sayısını, motor hacmini (litre), ateşleme sırasını ve yakıt stratejisini yapılandırın.
+
+![Motor yapılandırma menüsü](/images/honda/obd2-dpfi/v5/image10.png)
+![Motor parametreleri yapılandırma paneli](/images/honda/obd2-dpfi/v5/image11.png)
+![Yakıt stratejisi yapılandırma seçenekleri](/images/honda/obd2-dpfi/v5/image12.png)
+
+## Ateşleme (Distribütör / COP)
+
+**UYARI:** Sadece **akıllı bobinler** veya harici ateşleyicili basit bobinler kullanın.
+
+ICM anahtarı, ateşleme kurulumuna göre ayarlanmalıdır. **(KRİTİK)**
+![ICM anahtarı konumu](/images/honda/obd2-dpfi/v5/image13.png)
+
+**Kıvılcım Modunu** ve **Çıkış Modunu** yapılandırın
+
+**KRİTİK UYARI:** Çıkış modu doğru yapılandırılmazsa, bobin(ler) aşırı ısınır ve potansiyel olarak hasar görebilir. Eğer ateşleme AÇIK ve bobin ısınmaya başlıyorsa, yapılandırma muhtemelen yanlıştır.
+
+![Kıvılcım modu yapılandırması](/images/honda/obd2-dpfi/v5/image14.png)
+![Çıkış modu yapılandırması](/images/honda/obd2-dpfi/v5/image15.png)
+![Ek yapılandırma seçenekleri](/images/honda/obd2-dpfi/v5/image16.png)
+
+**Kıvılcım modu:**
+
+- Tek bobin: Distribütör
+- Bireysel bobinler: Sıralı modda akıllı bobinler
+
+**Ateşleme çıkış modu:**
+
+- Honda distribütör DPFI bobini: **Varsayılan** (Going Low)
+- Akıllı bobinlerin çoğu: Varsayılan (Going Low)
+
+3.2.3. **Ateşleme voltaj çıkışı:** Jumperlar aracılığıyla her ateşleme çıkışı çifti için voltajı seçin:
+
+`H1 + H2` `H3 + H4` `H5 + H6` `H7 + H8` `H9 + H10` `H11 + H12`
+
+![Ateşleme voltajı jumper ayarları](/images/honda/obd2-dpfi/v5/image17.png)
+
+- Honda distribütör: 12V
+- Akıllı bobinlerin çoğu: 5V
+
+3.2.4. **Bireysel bobinler kullanılıyorsa:** Her bobin sinyal kablosunu OBD1 C konektörüne bağlayın.
+
+![OBD1 C konektör pin çıkışı](/images/honda/obd2-dpfi/v5/image18.png)
+
+**C5:**   Bobin 1 (High side 1)  
+**C7:**   Bobin 2 (High side 2)  
+**C9:**   Bobin 3 (High side 3)  
+**C11:** Bobin 4 (High side 4)  
+
+**UYARI:** Herhangi bir bobine zarar vermemek için ateşleme ile ilgili tüm bölümleri okuduğunuzdan emin olun. 
+
+## Enjeksiyon
+
+**UYARI:** Sadece yüksek empedanslı enjektörler (> 8 ohm) veya bir direnç kutusu ile düşük empedanslı enjektörler kullanın.
+
+Her silindire karşılık gelen çıkışları yapılandırın.
+
+![Enjeksiyon çıkış yapılandırması](/images/honda/obd2-dpfi/v5/image19.png)
+![Silindir yapılandırması](/images/honda/obd2-dpfi/v5/image20.png)
+![Ek enjeksiyon ayarları](/images/honda/obd2-dpfi/v5/image21.png)
+
+3.3.2 Enjektör temel ayarları
+
+- Enjeksiyon modu
+- Enjektör akışı
+- Telafi modu
+- Ölü zaman
+
+![Enjektör temel ayarları](/images/honda/obd2-dpfi/v5/image22.png)
+![Enjektör parametreleri](/images/honda/obd2-dpfi/v5/image23.png)
+![Ölü zaman yapılandırması](/images/honda/obd2-dpfi/v5/image24.png)
+
+## Sıcaklık sensörleri
+
+Soğutma sıvısı sıcaklık sensörü
+
+![Sıcaklık sensörü menüsü](/images/honda/obd2-dpfi/v5/image25.png)
+![Soğutma sıvısı sıcaklık yapılandırması](/images/honda/obd2-dpfi/v5/image26.png)
+![Soğutma sıvısı sensör parametreleri](/images/honda/obd2-dpfi/v5/image27.png)
+
+Emme sıcaklık sensörü
+
+![Sıcaklık sensörü menüsü](/images/honda/obd2-dpfi/v5/image25.png)
+![Emme sıcaklık yapılandırması](/images/honda/obd2-dpfi/v5/image28.png)
+![Emme sensör parametreleri](/images/honda/obd2-dpfi/v5/image29.png)
+
+## Trigger çarkı
+
+Distribütör diskinize göre trigger çarkını yapılandırın:
+
+![Trigger yapılandırma menüsü](/images/honda/obd2-dpfi/v5/image10.png)
+![Trigger çarkı ayarları](/images/honda/obd2-dpfi/v5/image30.png)
+
+**Stok trigger diski:**
+
+![Stok trigger diski diyagramı](/images/honda/obd2-dpfi/v5/image31.png)
+
+**24-1 trigger diski:**
+
+![24-1 trigger diski diyagramı](/images/honda/obd2-dpfi/v5/image32.png)
+
+## ECU'yu araca bağlama 
+
+## Gaz Kelebeği Konum Sensörü (TPS)
+
+![TPS yapılandırma menüsü](/images/honda/obd2-dpfi/v5/image33.png)
+![TPS ayarları](/images/honda/obd2-dpfi/v5/image34.png)
+![TPS kalibrasyonu](/images/honda/obd2-dpfi/v5/image35.png)
+
+TPS gaz pedalına basılmadığında %0 ve tam gazda %100 değerini gösterene kadar **Birincil minimum (ADC)** ve **Birincil maksimum (ADC)** değerlerini ayarlayın.
+
+## MAP sensörü
+
+Herhangi bir MAP sensörü kullanılabilir, ancak en yaygın olarak A4 girişindeki orijinal sensör kullanılır.
+
+![MAP sensör menüsü](/images/honda/obd2-dpfi/v5/image33.png)
+![MAP sensör yapılandırması](/images/honda/obd2-dpfi/v5/image36.png)
+![MAP sensör ayarları](/images/honda/obd2-dpfi/v5/image37.png)
+
+Ayrıca kart üzerindeki bir MAP sensörünü Analog Giriş 5'e lehimleyebilir veya boş bir analog girişe bağlayabilirsiniz.
+
+![Kart üzerindeki MAP sensörü konumu](/images/honda/obd2-dpfi/v5/image38.png)
+
+## Radyatör fanı
+
+Bir valf, radyatör fanını mekanik olarak kontrol eder, ancak ECU, kullanılmayan bir Low side çıkışı aracılığıyla röleyi bağımsız olarak etkinleştirebilir.
+
+![Fan kontrol menüsü](/images/honda/obd2-dpfi/v5/image10.png)
+![Fan çıkış yapılandırması](/images/honda/obd2-dpfi/v5/image39.png)
+![Fan ayarları](/images/honda/obd2-dpfi/v5/image40.png)
+
+## Temel ateşleme zamanlaması (distribütörün dönüşü ile aynı)
+
+Ateşleme zamanlamasını motorla senkronize etmek için bir [Zamanlama Işığı tabancası](https://bossgarage.eu/en/products/timing-light-gun) yardımıyla ayarlamak gereklidir.
+
+1. Enjeksiyonu devre dışı bırakın **(eğer araç çalışıyorsa, bu adımı atlayın)**
+![Enjeksiyon menüsü](/images/honda/obd2-dpfi/v5/image41.png)
+![Enjeksiyon ayarları](/images/honda/obd2-dpfi/v5/image42.png)
+![Enjeksiyonu devre dışı bırakma](/images/honda/obd2-dpfi/v5/image43.png)
+
+2. Zamanlama modunu **dinamik**ten **sabit**e değiştirin, böylece ECU bobini her zaman 0 derece açısında ateşler.
+![Ateşleme menüsü](/images/honda/obd2-dpfi/v5/image14.png)
+![Ateşleme zamanlama ayarları](/images/honda/obd2-dpfi/v5/image15.png)
+![Sabit zamanlama yapılandırması](/images/honda/obd2-dpfi/v5/image44.png)
+
+3. Krank kasnağı üzerindeki **0 derece işaretini** beyaz bir kalem ile işaretleyin.
+Krank kasnağının dört işareti vardır, dördünün içinde tek olan işaret 0 derecedir (ÜÖN).
+![Krank kasnağı zamanlama işaretleri](/images/honda/obd2-dpfi/v5/image45.png)
+
+4. Zamanlama ışığı kelepçesini 1 numaralı buji kablosuna takın, okun bujiye doğru baktığından emin olun.
+
+5. Krank kasnağındaki 0 derece işareti, distribütör kapağındaki gösterge ile hizalanana kadar **Trigger Açısı İlerlemesi** değerini ayarlayın.
+![Trigger yapılandırma menüsü](/images/honda/obd2-dpfi/v5/image10.png)
+![Trigger açısı ayarları](/images/honda/obd2-dpfi/v5/image30.png)
+![Trigger açısı ilerleme ayarı](/images/honda/obd2-dpfi/v5/image46.png)
+
+6. ECU'nun ateşleme tablosu değerlerini göndermesi için zamanlamayı kilidini açın.
+![Ateşleme menüsü](/images/honda/obd2-dpfi/v5/image14.png)
+![Ateşleme zamanlama ayarları](/images/honda/obd2-dpfi/v5/image15.png)
+![Dinamik zamanlama yapılandırması](/images/honda/obd2-dpfi/v5/image47.png)
+
+7. **Zamanlama senkronize edildi,** şimdi aracınızı çalıştırın 🥳🥳🥳 
+
+## Rölanti kontrolü
+
+Motor normal çalışma sıcaklığındayken rölanti ayarını yapın.
+
+1. Rölanti hızını ayarlamak için **Rölanti Hedefi** değerini değiştirin.
+2. Kapalı döngü rölanti kontrolünü etkinleştirin, böylece ECU rölanti hızını otomatik olarak ayarlayabilir.
+3. Rölanti valfi için **Minimum** ve **Maksimum** değerlerini ayarlayın.
+4. Rölanti valfi için **P**, **I** ve **D** parametrelerini ayarlayın.
+5. Rölanti senkronizasyonunu ayarlamak için **Rölanti Senkronizasyonu** değerini değiştirin.
+
+![Rölanti kontrol menüsü](/images/honda/obd2-dpfi/v5/image48.png)
+![Rölanti ayarları](/images/honda/obd2-dpfi/v5/image49.png)
+![Rölanti PID ayarları](/images/honda/obd2-dpfi/v5/image50.png)
+![Rölanti senkronizasyonu](/images/honda/obd2-dpfi/v5/image51.png)
+![Rölanti valf ayarları](/images/honda/obd2-dpfi/v5/image52.png)
+
+## VTEC Solenoidi
+
+Bu motor bir VTEC solenoidine sahip değildir, ancak bir VTEC kafasına geçiş yapabilirsiniz.
+
+![VTEC menüsü](/images/honda/obd2-dpfi/v5/image53.png)
+![VTEC ayarları](/images/honda/obd2-dpfi/v5/image54.png)
+
+## Araç Hız Sensörü
+
+![Araç hız sensörü menüsü](/images/honda/obd2-dpfi/v5/image55.png)
+![Araç hız sensörü yapılandırması](/images/honda/obd2-dpfi/v5/image56.png)
+
+## Klima
+
+![Klima menüsü](/images/honda/obd2-dpfi/v5/image57.png)
+![Klima ayarları](/images/honda/obd2-dpfi/v5/image58.png)
+
+## Geniş Bant Oksijen Sensörü
+
+VE tablosunu ayarlamak için bir geniş bant oksijen sensörü gereklidir. Hava-yakıt oranını ölçmek için bir LSU 4.9 sensörünü doğrudan kart üzerindeki kontrolcüye bağlayabilir veya harici bir kontrolcüden 0-5V sinyali alabilirsiniz.
+
+### LSU 4.9 sensörünü doğrudan kart üzerindeki kontrolcüye bağlama
+
+| OBD1 C Konnektörü | LSU 4.9 Sensörü |
+| ----------------- | --------------- |
+| C4                | Kırmızı/Siyah   |
+| C5                | Sarı            |
+| C6                | Beyaz           |
+| C7                | Gri             |
+| C8                | Kırmızı         |
+| C9                | Siyah           |
+
+![Geniş bant sensör bağlantı şeması](/images/honda/obd2-dpfi/v5/image59.png)
+![Geniş bant sensör bağlantı şeması 2](/images/honda/obd2-dpfi/v5/image60.png)
+
+### Geniş bant sensörün doğrusal çıkış değerlerini yapılandırma
+
+![Geniş bant sensör menüsü](/images/honda/obd2-dpfi/v5/image61.png)
+![Geniş bant sensör yapılandırması](/images/honda/obd2-dpfi/v5/image62.png)
+![Geniş bant sensör ayarları](/images/honda/obd2-dpfi/v5/image63.png)
+
+## Kalkış Kontrolü
+
+Kalkış kontrolü, hızlı kalkışlar ve alev püskürtme efektleri için kullanılır. Dört aktivasyon modu vardır: hız, kalkış, debriyaj veya fren düğmesi. Çoğu araç için, debriyaja basıldığında OBD1 B7 pinine toprak sinyali gönderen bir anahtara kablolama yapmanız gerekecektir.
+
+![Kalkış kontrol menüsü](/images/honda/obd2-dpfi/v5/image64.png)
+![Kalkış kontrol yapılandırması](/images/honda/obd2-dpfi/v5/image65.png)
+
+Kalkış kontrolü için birkaç parametre ayarlayabilirsiniz:
+- **Kalkış RPM**: Kalkış kontrolü etkinken motorun çalışacağı RPM.
+- **Ateşleme Gecikmesi**: Kalkış kontrolü etkinken ateşleme zamanlamasının gecikme miktarı.
+- **Sert Kesme RPM**: Kalkış kontrolü etkinken motorun maksimum RPM'i.
+- **Yumuşak Gecikme Modu**: RPM aralığı içinde ateşleme gecikmesini enterpolasyon yapar. 
+
+## Anti-Lag
+
+Anti-lag, turbo gecikmesini azaltmak için kullanılır. Kullanılmayan bir dijital girişe toprak sinyali gönderen bir anahtara kablolama yapmanız gerekir.
+
+![Anti-lag menüsü](/images/honda/obd2-dpfi/v5/image66.png)
+![Anti-lag yapılandırması](/images/honda/obd2-dpfi/v5/image67.png)
+
+## Boost Kontrolü
+
+Turboşarjdan gelen boost basıncını artırmak için bir boost kontrolörü kullanabilirsiniz.
+
+1. Boost kontrol valfini kullanılmayan bir Low side çıkışına bağlayın.
+2. Motoru korumak için bir boost limiti ayarlayın.
+3. Boost kontrolünü açık döngü veya kapalı döngü modunda yapılandırın.
+
+![Boost limit menüsü](/images/honda/obd2-dpfi/v5/image68.png)
+![Boost limit yapılandırması](/images/honda/obd2-dpfi/v5/image69.png)
+
+### Açık Döngü Boost Kontrolü
+
+Açık döngü boost kontrolü, boost basıncını kontrol etmek için önceden tanımlanmış bir görev döngüsü tablosu kullanır.
+
+![Açık döngü boost kontrol tablosu](/images/honda/obd2-dpfi/v5/image70.png)
+
+### Kapalı Döngü Boost Kontrolü
+
+Kapalı döngü boost kontrolü, boost basıncını kontrol etmek için bir PID kontrolörü kullanır.
+
+![Kapalı döngü boost kontrol tablosu](/images/honda/obd2-dpfi/v5/image71.png)
+
+### Boost Kesme Basıncı
+
+Boost kesme basıncı, motorun zarar görmesini önlemek için boost basıncının aşmaması gereken maksimum değerdir. Boost basıncı bu değeri aştığında, ECU enjeksiyonu ve/veya ateşlemeyi keser.
+
+![Boost kesme basıncı](/images/honda/obd2-dpfi/v5/image72.png)
+
+### Boost Histerezisi
+
+Boost histerezisi, boost kesme basıncının altında kalan ve boost kesmenin devre dışı bırakılacağı basınç değeridir. Örneğin, boost kesme basıncı 1.5 bar ve histerezis 0.1 bar ise, boost basıncı 1.5 bar'ı aştığında kesme etkinleşir ve 1.4 bar'ın altına düştüğünde devre dışı kalır. 
+
+## FLEX FUEL (E85)
+
+Yakıttaki etanol içeriğini belirlemek için bir flex fuel sensörü bağlayabilirsiniz.
+
+1. Flex fuel sensörünü kullanılmayan bir dijital girişe bağlayın.
+2. Flex fuel sensörünü yapılandırın.
+
+![Flex fuel menüsü](/images/honda/obd2-dpfi/v5/image73.png)
+![Flex fuel yapılandırması](/images/honda/obd2-dpfi/v5/image74.png)
+![Flex fuel girişi seçimi](/images/honda/obd2-dpfi/v5/image75.png)
+
+## CEL: Vites Değiştirme / Uyarı Lambası
+
+CEL (Check Engine Light - Motor Kontrol Lambası), programlanabilir bir çıkış olarak kullanılabilir. Vites değiştirme göstergesi ve soğutma suyu sıcaklık uyarısı için tercih edilir.
+
+![CEL menüsü](/images/honda/obd2-dpfi/v5/image76.png)
+![CEL yapılandırması](/images/honda/obd2-dpfi/v5/image77.png)
+
+### Vites Değiştirme Göstergesi
+
+Vites değiştirme göstergesi, belirli bir RPM'e ulaşıldığında CEL'i etkinleştirir.
+
+![Vites değiştirme göstergesi yapılandırması](/images/honda/obd2-dpfi/v5/image78.png)
+
+### Soğutma Suyu Sıcaklık Uyarısı
+
+Soğutma suyu sıcaklık uyarısı, soğutma suyu sıcaklığı belirli bir değeri aştığında CEL'i etkinleştirir.
+
+![Soğutma suyu sıcaklık uyarısı yapılandırması](/images/honda/obd2-dpfi/v5/image79.png) 
+
+## Takometre
+
+Orijinal distribütör bobini, gösterge paneline RPM sinyalleri gönderir. Bireysel bobinlere dönüştürürken, ECU bunu kontrol edebilir.
+
+1. RPM sinyalleri için bir Low-Side çıkışı seçin.
+2. Distribütör bobinini kullanıyorsanız, takometre kablosunu çıkarın.
+3. TACH anahtarını "EVET" olarak ayarlayın.
+
+![Takometre menüsü](/images/honda/obd2-dpfi/v5/image80.png)
+![Takometre yapılandırması](/images/honda/obd2-dpfi/v5/image81.png)
+
+## Yardımcı Giriş/Çıkışlar
+
+### Low-Side Çıkışlar
+
+Low-Side çıkışlar, enjektörler, valfler ve ateşleme bobinleri gibi bileşenleri kontrol etmek için kullanılır.
+
+![Low-Side çıkış menüsü](/images/honda/obd2-dpfi/v5/image82.png)
+![Low-Side çıkış yapılandırması](/images/honda/obd2-dpfi/v5/image83.png)
+
+### High-Side Çıkışlar
+
+High-Side çıkışlar, röleler ve diğer yüksek akım bileşenlerini kontrol etmek için kullanılır.
+
+![High-Side çıkış menüsü](/images/honda/obd2-dpfi/v5/image84.png)
+![High-Side çıkış yapılandırması](/images/honda/obd2-dpfi/v5/image85.png)
+
+### Analog Girişler
+
+Analog girişler, MAP sensörleri, TPS, sıcaklık sensörleri ve diğer analog sensörler için kullanılır.
+
+![Analog giriş menüsü](/images/honda/obd2-dpfi/v5/image86.png)
+![Analog giriş yapılandırması](/images/honda/obd2-dpfi/v5/image87.png)
+
+### Dijital Girişler
+
+Dijital girişler, anahtarlar, düğmeler ve diğer dijital sensörler için kullanılır.
+
+![Dijital giriş menüsü](/images/honda/obd2-dpfi/v5/image88.png)
+![Dijital giriş yapılandırması](/images/honda/obd2-dpfi/v5/image89.png)
+
+### OBD1 B Konnektörü Pinout
+
+| OBD1 B Konnektörü | İşlev                |
+| ----------------- | -------------------- |
+| B1                | Dijital Giriş 1      |
+| B2                | Dijital Giriş 2      |
+| B3                | Dijital Giriş 3      |
+| B4                | Dijital Giriş 4      |
+| B5                | Dijital Giriş 5      |
+| B6                | Dijital Giriş 6      |
+| B7                | Dijital Giriş 7      |
+| B8                | Dijital Giriş 8      |
+| B9                | Analog Giriş 1       |
+| B10               | Analog Giriş 2       |
+| B11               | Analog Giriş 3       |
+| B12               | Analog Giriş 4 (MAP) |
+| B13               | Analog Giriş 5       |
+| B14               | Analog Giriş 6       |
+| B15               | Analog Giriş 7       |
+| B16               | Analog Giriş 8       |
+
+**Not**: Bağlanmamış sensörleri yeniden kullanabilirsiniz. Örneğin, aracınızda bir EGT sensörü yoksa, bu giriş için kullanılmayan bir analog girişi kullanabilirsiniz.
+
+**Not**: Sıcaklık sensörleri için, ilgili giriş anahtarını açmanız gerekir. 
